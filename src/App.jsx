@@ -8,7 +8,7 @@ const App = () => {
     return (
         <Router>
             <Routes>
-                <Route path="/dashboard" element={<Hero title={"ERP System"} subtitle={"Random description"} />} />
+                <Route path="/dashboard" element={<Dashboard />} />
             </Routes>
         </Router>
     );
