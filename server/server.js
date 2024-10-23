@@ -2,6 +2,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 // const cors = require('cors');
 // const bodyParser = require('body-parser');
+import Customer from './models/customerSchema.js';
 
 // setting the port
 const port = process.env.PORT || 3000;
@@ -12,24 +13,7 @@ const app = express();
 const databaseName = "customerData" // Specifying the database name
 const databaseURL = "mongodb+srv://charlie06atkinson:iLwdpmiA4cdZGDSK@erpdatabase.eolfh.mongodb.net/ERPDatabase?retryWrites=true&w=majority&appName=ERPDatabase";
 
-// Collection Schema - Used to define how data should be stored within the database
-const customerSchema = new mongoose.Schema({
-    name: {
-        type: String,
-        required: true,
-    },
-    age: {
-        type: Number,
-        required: true,
-    },
-    email: {
-        type: String,
-        required: true,
-    }
-}, { timestamps: true }, {collection: 'Customer'});
 
-// Defining the schema to a variable
-const Customer = mongoose.model('Customer', customerSchema);
 
 // Connecting to the MongoDB database
 // Once the database has been initialised, the server will listen for requests.
@@ -45,9 +29,9 @@ mongoose.connect(databaseURL)
 // Postman would be used to use POST operations.
 app.post('/add-customer', (req, res) => {
     const customer = new Customer({
-        name: 'Charlie Atkinson',
-        age: 18,
-        email: 'juzatkia@gmail.com'
+        name: 'Ben Tucker',
+        age: 17,
+        email: 'N/A'
     })
     customer.save()
         .then((result) => res.send(result))
