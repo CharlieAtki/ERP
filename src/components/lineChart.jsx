@@ -56,7 +56,7 @@ const LineChartComponent = () => {
         // Stroke and fill are for the colour of the visualised data on the graph
         // StackId allows the visualised data to be added on top of one another.
 
-        //<ResponsiveContainer width="100%" height="100%">
+        <ResponsiveContainer width="100%" height="100%">
             <LineChart width={500} height={500} data={testData}>
                 <YAxis />
                 <XAxis dataKey="name" />
@@ -80,7 +80,7 @@ const LineChartComponent = () => {
                     stackId="1"
                 />
             </LineChart>
-       // </ResponsiveContainer>
+       </ResponsiveContainer>
     )
 };
 
