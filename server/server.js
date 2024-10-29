@@ -26,6 +26,7 @@ mongoose.connect(databaseURL)
     .catch((err) => console.log('MongoDB connection error:', err));
 
 // API to add customers to the database
+// This is for reference as data will be input via input fields later in development
 // Postman would be used to use POST operations.
 app.post('/add-customer', (req, res) => {
     const customer = new Customer({
@@ -55,3 +56,8 @@ app.get('/all-customers', (req, res) => {
 
 // PS - the APIs, which as currently implemented are just a proof of concept
 // They still need to be incorporated into the main function of the program
+
+// MORE REST APIs need to be developed.
+// This includes:
+// Fetching data from the database
+// sending data to the database

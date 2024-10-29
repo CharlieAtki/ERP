@@ -64,3 +64,9 @@ const Dashboard = () => {
 
 
 export default Dashboard;
+
+// Things to add to this module:
+
+// Within each graph component file, add the functionality to fetch data from the mongoDB database via an API.
+// Reference server functionality has already been developed within the "server" JS file.
+// Use this to develop the other APIs to allow the program to use CRUD operations.
