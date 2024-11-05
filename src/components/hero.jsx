@@ -11,6 +11,9 @@ const Hero = ({title, subtitle}) => {
                     <p className="my-4 text-xl text-white">
                         {subtitle}
                     </p>
+                    <p className="my-4 text-xl text-white">
+
+                    </p>
                 </div>
             </div>
         </section>

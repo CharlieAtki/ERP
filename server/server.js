@@ -1,6 +1,6 @@
 import express from 'express';
 import mongoose from 'mongoose';
-// const cors = require('cors');
+import cors from 'cors'; // Import cors
 // const bodyParser = require('body-parser');
 import Customer from './models/customerSchema.js';
 
@@ -9,6 +9,8 @@ const port = process.env.PORT || 3000;
 
 // initialising the express route management for the server
 const app = express();
+
+app.use(cors()); // Enable CORS for all routes
 
 const databaseName = "customerData" // Specifying the database name
 const databaseURL = "mongodb+srv://charlie06atkinson:iLwdpmiA4cdZGDSK@erpdatabase.eolfh.mongodb.net/ERPDatabase?retryWrites=true&w=majority&appName=ERPDatabase";
@@ -53,6 +55,19 @@ app.get('/all-customers', (req, res) => {
             res.status(500).send('Error fetching customers');
         });
 });
+
+// /test API will return all the documents with the name attribute equal to "Charlie Atkinson)
+
+app.get('/test', (req, res) => {
+    Customer.find({name: "Charlie Atkinson"})
+        .then((result) => res.send(result))
+        .catch((err) => {
+            console.log('Error saving customer', err);
+            res.status(500).send('Error fetching customers');
+        })
+
+})
+
 
 // PS - the APIs, which as currently implemented are just a proof of concept
 // They still need to be incorporated into the main function of the program

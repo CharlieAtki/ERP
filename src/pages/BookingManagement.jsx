@@ -1,8 +1,12 @@
 import React from "react";
 import Hero from "../components/Hero";
+import DynamicTable from "../components/test.jsx";
 const BookingManagement = () => {
     return (
-        <Hero title={"ERP System"} subtitle={"Booking Management"} />
+        <>
+            <Hero title={"ERP System"} subtitle={"Booking Management"} />
+            <DynamicTable />
+        </>
     );
 };
 
