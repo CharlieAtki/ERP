@@ -1,10 +1,10 @@
 import React from "react";
-import Hero from "../components/Hero";
 import DynamicTable from "../components/test.jsx";
+import NavigationBar from "../components/navigationBar.jsx";
 const BookingManagement = () => {
     return (
         <>
-            <Hero title={"ERP System"} subtitle={"Booking Management"} />
+            <NavigationBar title={"Dashboard"} subtitle={"Where Metrics Are Managed"} />
             <DynamicTable />
         </>
     );

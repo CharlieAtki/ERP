@@ -1,9 +1,13 @@
 import React from "react";
-import Hero from "../components/Hero";
+import LoginFrom from "../components/loginForm.jsx";
+import NavigationBar from "../components/navigationBar.jsx";
 
 const AccountManagement = () => {
     return (
-        <Hero title="ERP System" subtitle="Account Management" />
+        <>
+            <NavigationBar title="Account Management" subtitle="Create Your Account" />
+            <LoginFrom />
+        </>
     );
 };
 

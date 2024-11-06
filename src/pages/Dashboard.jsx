@@ -1,4 +1,5 @@
 import Hero from '../components/Hero';
+import NavigationBar from "../components/navigationBar.jsx";
 import React from "react";
 import AreaChartComponents from "../components/areaChart.jsx";
 import LineChartComponent from "../components/lineChart.jsx";
@@ -29,32 +30,34 @@ import BarChartComponent from "../components/barChart.jsx";
 const Dashboard = () => {
     return (
         <>
-            <Hero title="ERP System" subtitle="Data Dashboard" />
+            <div>
+                <NavigationBar title={"Dashboard"} subtitle="Where Data is Visualised" />
 
-            <div className="space-y-8 p-4">
-                {/* First row of charts */}
-                <div className="flex space-x-4">
-                    <div className="w-1/3 h-[33vw]">
-                        <AreaChartComponents />
+                <div className="space-y-8 p-4">
+                    {/* First row of charts */}
+                    <div className="flex space-x-4">
+                        <div className="w-1/3 h-[33vw]">
+                            <AreaChartComponents />
+                        </div>
+                        <div className="w-1/3 h-[33vw]">
+                            <LineChartComponent />
+                        </div>
+                        <div className="w-1/3 h-[33vw]">
+                            <BarChartComponent />
+                        </div>
                     </div>
-                    <div className="w-1/3 h-[33vw]">
-                        <LineChartComponent />
-                    </div>
-                    <div className="w-1/3 h-[33vw]">
-                        <BarChartComponent />
-                    </div>
-                </div>
 
-                {/* Second row of charts */}
-                <div className="flex space-x-4">
-                    <div className="w-1/3 h-[33vw]">
-                        <BarChartComponent />
-                    </div>
-                    <div className="w-1/3 h-[33vw]">
-                        <LineChartComponent />
-                    </div>
-                    <div className="w-1/3 h-[33vw]">
-                        <AreaChartComponents />
+                    {/* Second row of charts */}
+                    <div className="flex space-x-4">
+                        <div className="w-1/3 h-[33vw]">
+                            <BarChartComponent />
+                        </div>
+                        <div className="w-1/3 h-[33vw]">
+                            <LineChartComponent />
+                        </div>
+                        <div className="w-1/3 h-[33vw]">
+                            <AreaChartComponents />
+                        </div>
                     </div>
                 </div>
             </div>

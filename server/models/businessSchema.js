@@ -32,7 +32,7 @@ const BusinessSchema = new mongoose.Schema({
         type: Number,
     },
     paymentStatus: {
-        type: Number,
+        type: String,
     },
     costPerBooking: {
         type: Number,
@@ -49,7 +49,10 @@ const BusinessSchema = new mongoose.Schema({
     revenueForecasting: {
         type: Number,
     }
-}, {timestamps: true}, {collection: 'Business'});
+}, {
+    timestamps: true,       // Adds createdAt and updatedAt timestamps
+    collection: 'Business'  // Specifies the MongoDB collection name
+});
 
 // Creating "Business" model using the "business" schema.
 const Business = mongoose.model('Business', BusinessSchema);
