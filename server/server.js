@@ -2,7 +2,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors'; // Import cors
 // const bodyParser = require('body-parser');
-import Customer from './models/customerSchema.js';
+import Client from './models/clientSchema.js';
 import Business from './models/businessSchema.js';
 
 // setting the port
@@ -31,46 +31,40 @@ mongoose.connect(databaseURL)
     .catch((err) => console.log('MongoDB connection error:', err));
 
 // API to add customers to the database
-// This is for reference as data will be input via input fields later in development
 // Postman would be used to use POST operations.
-app.post('/add-customer', (req, res) => {
-    const customer = new Customer({
-        name: 'Ben Tucker',
-        age: 17,
-        email: 'N/A'
+// This API is being called by loginFrom.jsx when the user attempts to create an account
+app.post('/add-client', (req, res) => {
+    console.log("Received data:", req.body);
+    // Creating a new client in the document
+    const client = new Client({
+        // both email and password are the attributes, which have had data input
+        email: req.body.email,
+        password: req.body.password,
     })
-    customer.save()
+    client.save()
+        // .then is used as saving the data to the database is asynchronous
+        // res.send(result) will send the saved data back to the frontend
         .then((result) => res.send(result))
+        // If an error occurs, the error is output into the console and the according server status code is set
         .catch((err) => {
-            console.log('Error saving customer', err)
-            res.status(500).send('Error saving customer')
+            console.log('Error saving client', err)
+            res.status(500).send('Error saving client')
         });
 });
 
 // Route to retrieve all customers from the "customer" collection (MongoDB)
 // collects all the data, which is stored within the collection.
 // Each element would be added to the array and then output
-app.get('/all-customers', (req, res) => {
-    Customer.find()
+app.get('/all-clients', (req, res) => {
+    Client.find()
         .then((result) => res.send(result))
         .catch((err) => {
-            console.log('Error fetching customers:', err);
-            res.status(500).send('Error fetching customers');
+            console.log('Error fetching clients:', err);
+            res.status(500).send('Error fetching clients');
         });
 });
 
-// /test API will return all the documents with the name attribute equal to "Charlie Atkinson)
-
-app.get('/test', (req, res) => {
-    Customer.find({name: "Ben Tucker"})
-        .then((result) => res.send(result))
-        .catch((err) => {
-            console.log('Error saving customer', err);
-            res.status(500).send('Error fetching customers');
-        })
-
-})
-
+// This API is used to create a new business document within the business collection
 app.post('/new-business', (req, res) => {
     // Using the mongoose constructor to create the business object and assign the according attributes
     // req.body is an object that contains data sent by the client in the body of a request, typically in POST, PUT, or PATCH requests.
@@ -97,18 +91,29 @@ app.post('/new-business', (req, res) => {
     })
     // Saving the business to the MongoDB database
     business.save()
+        // Once the data is saved, the business information is then sent to the frontend
         .then((result) => res.json(result))
+        // If an error occurs, the errors will be output into the console,
+        // and the according server status code is set (500 = internal server error)
+        //
         .catch((err) => {
             console.log('Error saving business', err);
             res.status(500).send('Error saving business')
         });
 });
 
-
-// PS - the APIs, which as currently implemented are just a proof of concept
-// They still need to be incorporated into the main function of the program
-
-// MORE REST APIs need to be developed.
-// This includes:
-// Fetching data from the database
-// sending data to the database
+// This API is for development purposes.
+// The algorithm is used to delete all test clients quickly rather than handling the process manually
+app.delete('/delete-all-clients', (req, res) => {
+    // Client.deleteMany - This deletes all documents within the Client collection, which match the filter
+    // In this scenario, I have identified all documents with the email, "test@gmail.com"
+    Client.deleteMany( { email: "test@gmail.com"} )
+        // Once the accounts have being deleted, the total number removed is send to the front end (UI or Postman)
+        .then((result) => res.send(result))
+        // If an error occurs, the error will be output into the console and the server status code is sent
+        // 500 = internal server error
+        .catch((err) => {
+            console.log('Error deleting client', err);
+            res.status(500).send('Error deleting clients')
+        })
+})

@@ -28,7 +28,7 @@ const NavigationBar = ({ title, subtitle}) => {
             </div>
 
             {/* Buttons on the right */}
-            <div className="flex space-x-8 p-2">
+            <div className="flex space-x-3.5 p-2">
                 {/* Using React client-side routing, if the button is pressed, route the user to /dashboard */}
                 <Link to="/dashboard">
                     <button className={getButtonClass("/dashboard")}>Dashboard</button>
@@ -46,5 +46,5 @@ const NavigationBar = ({ title, subtitle}) => {
     );
 };
 
-// Exporting the component so it can be used multiple times across the codebase
+// Exporting the component, which can be used multiple times across the codebase
 export default NavigationBar;
