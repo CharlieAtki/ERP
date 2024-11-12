@@ -7,6 +7,14 @@ const BusinessSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    weekStartDate: {
+        type: String,
+        required: true,
+    },
+    weekEndDate: {
+        type: String,
+        required: true,
+    },
     totalBookings: {
         type: Number,
     },

@@ -27,6 +27,10 @@ import BarChartComponent from "../components/barChart.jsx";
 // you ensure each ResponsiveContainer inside adapts to these square dimensions,
 // making the graphs display as squares.
 
+// border-gray-300 rounded-lg - This creates a grey rounded border around each element of the UI,
+// which given a more modular/compartmentalised design ascetic
+// shadow-md adds a shadow around the border. This gives the graph components more presence
+
 const Dashboard = () => {
     return (
         <>
@@ -36,28 +40,29 @@ const Dashboard = () => {
                 <div className="space-y-8 p-4">
                     {/* First row of charts */}
                     <div className="flex space-x-4">
-                        <div className="w-1/3 h-[33vw]">
-                            <AreaChartComponents />
+                        <div className="w-1/4 h-[25vw] border border-gray-300 rounded-lg shadow-md p-4">
+                            <AreaChartComponents/>
                         </div>
-                        <div className="w-1/3 h-[33vw]">
-                            <LineChartComponent />
+                        <div className="w-1/4 h-[25vw] border border-gray-300 rounded-lg shadow-md p-4">
+                            <BarChartComponent/>
                         </div>
-                        <div className="w-1/3 h-[33vw]">
-                            <BarChartComponent />
+                        <div className="w-2/4 h-[25vw] border border-gray-300 rounded-lg shadow-md p-4">
+                            <AreaChartComponents/>
                         </div>
                     </div>
 
                     {/* Second row of charts */}
                     <div className="flex space-x-4">
-                        <div className="w-1/3 h-[33vw]">
-                            <BarChartComponent />
+                    <div className="w-2/4 h-[25vw] border border-gray-300 rounded-lg shadow-md p-4">
+                            <LineChartComponent/>
                         </div>
-                        <div className="w-1/3 h-[33vw]">
-                            <LineChartComponent />
+                        <div className="w-1/4 h-[25vw] border border-gray-300 rounded-lg shadow-md p-4">
+                            <BarChartComponent/>
                         </div>
-                        <div className="w-1/3 h-[33vw]">
-                            <AreaChartComponents />
+                        <div className="w-1/4 h-[25vw] border border-gray-300 rounded-lg shadow-md p-4">
+                            <AreaChartComponents/>
                         </div>
+
                     </div>
                 </div>
             </div>
