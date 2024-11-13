@@ -1,11 +1,15 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors'; // Import cors
+import dotenv from 'dotenv';
 import businessRoutes from "./routes/businessRoutes.js";
 import clientRoutes from "./routes/clientRoutes.js";
 
+// Load environment variables
+dotenv.config();
+
 // setting the port
-const port = process.env.PORT || 3000;
+const port = process.env.PORT;
 
 // initialising the express route management for the server
 const app = express();
@@ -13,11 +17,9 @@ const app = express();
 app.use(cors()); // Enable CORS for all routes
 app.use(express.json()); // Parse JSON encoded bodies
 
-const databaseName = "customerData" // Specifying the database name
 // Specifying the database URL
-const databaseURL = "mongodb+srv://charlie06atkinson:iLwdpmiA4cdZGDSK@erpdatabase.eolfh.mongodb.net/ERPDatabase?retryWrites=true&w=majority&appName=ERPDatabase";
-
-
+const databaseURL = process.env.MONGODB_URI;
+const databaseName = "customerData" // Specifying the database name
 
 // Connecting to the MongoDB database
 // Once the database has been initialised, the server will listen for requests.
