@@ -1,5 +1,5 @@
 import express from 'express';
-import {addClient, deleteAllClients, getAllClients} from "../controllers/clientController.js";
+import {addClient, clientLogin, deleteAllClients, getAllClients} from "../controllers/clientController.js";
 
 // initialing the express router
 const router = express.Router();
@@ -16,5 +16,7 @@ router.delete('/delete-all-clients', deleteAllClients);
 router.get('/all-clients', getAllClients);
 // Adding the AddClient controller to the router
 router.post('/add-client', addClient)
+// Adding the clientLogin controller to the router
+router.post('/clientLogin', clientLogin)
 
 export default router;

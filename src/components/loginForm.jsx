@@ -30,7 +30,7 @@ const LoginFrom = () => {
 
     // This asynchronous function is used to send and then receive data from backend
     // Data, such as email and password will be transferred
-    async function sendData() {
+    async function sendData(buttonType) {
         // Reset error states before submitting
         setEmailInputError(false);
         setPasswordInputError(false);
@@ -50,8 +50,11 @@ const LoginFrom = () => {
         }
 
         try {
+            // Ternary operator to switch the API URL depending on the button pressed
+            const endpoint = buttonType === 'signUp' ? 'http://localhost:3000/api/client/add-client' : 'http://localhost:3000/api/client/clientLogin';
+
             // fetch operation is asynchronous, the process will wait until the response
-            const response = await fetch("http://localhost:3000/add-client", {
+            const response = await fetch(endpoint, {
                 // Defining that the method is POST (sending data),
                 // Headers are telling the server that JSON is being sent
                 method: "POST",
@@ -66,23 +69,24 @@ const LoginFrom = () => {
                 if (data) {
                     // Redirecting the user to the dashboard
                     window.location.href = "http://localhost:5173/dashboard";
-                } else {
-                    setError(true);
-                    // if the user didn't input a password, set the error as true
-                    if (data.password === null) {
-                        setPasswordInputError(true);
-                    }
-                    // if the user didnt input an email, set the error as true
-                    if (data.email === null) {
-                        setEmailInputError(true);
-                    }
                 }
-                // Saving the response data for later use / use across the program
-                setSavedData(data);
             } else {
-                setError(true);  // Mark input fields with an error
-                // if the response is not ok, output the response status into the console
-                console.log('Failed to send data', response.status);
+                // fetching the response data
+                const data = await response.json();
+
+                // The backend checks to see if the email has been used within a client document
+                // The backend responds with a NOT OK (!ok) server status code, such as 500
+                // The backends response will return, which input field must have a different input
+                // By setting the according setInputError, the front end can use the ternary operator to adjust the colour of the input field
+                // In this example, the email input field would turn red
+                if (data.field === "email") {
+                    setEmailInputError(true);
+                }
+                if (data.field === "password") {
+                    setPasswordInputError(true);
+                }
+                // Log error response for debugging
+                console.log("Error Response Data:", data);
             }
         } catch (err) {
             setError(true);  // Mark input fields with an error
@@ -133,6 +137,7 @@ const LoginFrom = () => {
                                placeholder="Email address"
 
                         />
+                        {/* add the incorrect password prompt once the password input checks are implemented*/}
                         <input type="password"
                                name="password"
                                value={input.password}
@@ -141,16 +146,21 @@ const LoginFrom = () => {
                                placeholder="Password"
 
                         />
+                        {/* When there is an emailInputError, the text below appears to inform the user what input is incorrect*/}
+                        {emailInputError && (
+                            <p className="text-red-500 text-sm mt-1">Please Enter an Alternative Email.</p>
+                        )}
                     </div>
                     {/* SignIn and SignUp buttons */}
                     {/* space-x-4 - This adds space between each of the buttons in the row */}
                     <div className="py-6 space-x-4">
                         <button
+                            onClick={() => sendData('signIn')}
                             className='bg-gray-700 text-white rounded-full shadow-2xl shadow-gray-500/50 px-6 py-3 hover:bg-indigo-700 transition-all'>
                             SignIn
                         </button>
                         <button
-                            onClick={sendData}
+                            onClick={() => sendData('signUp')}
                             className='bg-gray-700 text-white rounded-full shadow-2xl shadow-gray-500/50 px-6 py-3 hover:bg-indigo-700 transition-all'>
                             SignUp
                         </button>
@@ -170,5 +180,5 @@ const LoginFrom = () => {
 };
 
 
-// Exporting the component so it can be called multiple times across the program
+// Exporting the component, which allows it to be called multiple times across the program
 export default LoginFrom
