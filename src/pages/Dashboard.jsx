@@ -5,8 +5,6 @@ import AreaChartComponents from "../components/areaChart.jsx";
 import LineChartComponent from "../components/lineChart.jsx";
 import BarChartComponent from "../components/barChart.jsx";
 
-// This "page" is where the different React "components" will be incorporated together
-// "Hero" refers to function, which creates a banner.
 
 // "space-y-8 p-4" is used to ensure the distance between each of the child elements is equal.
 // "space-y-8" refers to the horizontal distance between each of the graphs,
