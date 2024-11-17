@@ -8,9 +8,9 @@ const NavigationBar = ({ title, subtitle}) => {
     const getButtonClass = (path) => {
         return location.pathname === path
             // If truthy (the URL is the same as the buttons path, active state (change the colour)
-            ? 'bg-indigo-700 text-white rounded-full shadow-2xl shadow-indigo-500/50 px-6 py-3' // Active state
+            ? 'bg-indigo-700 text-white rounded-full shadow-2xl shadow-indigo-500/50 px-8 py-3 transform scale-110' // Active state
             // If falsy (the URL does not match the buttons path, inactive state (don's change the colour)
-            : 'bg-gray-700 text-white rounded-full shadow-2xl shadow-gray-500/50 px-6 py-3 hover:bg-indigo-700 transition-all'; // Inactive state
+            : 'bg-gray-700 text-white rounded-full shadow-2xl shadow-gray-500/50 px-8 py-3 hover:bg-indigo-700 transition-all transform hover:scale-105'; // Inactive state
     };
 
     return (

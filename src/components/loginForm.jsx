@@ -51,14 +51,34 @@ const LoginFrom = () => {
 
         try {
             // Ternary operator to switch the API URL depending on the button pressed
-            const endpoint = buttonType === 'signUp' ? 'http://localhost:3000/api/client/add-client' : 'http://localhost:3000/api/client/clientLogin';
+            const APIEndPoint = buttonType === 'signUp' ? 'http://localhost:3000/api/client/add-client' : 'http://localhost:3000/api/client/clientLogin';
+            // Ternary operator to switch between the different webpages depending on the button pressed
+            const UIEndPoint = buttonType === 'signUp' ? 'http://localhost:5173/twoFactorAuthentication' : 'http://localhost:5173/dashboard';
+
+            // Explanation why the credentials: "include is used"
+            // 1. User logins in successfully
+            // 2. Backend creates a session and tries to set a cookie via response header
+            // 3. Frontend need "credentials: "include" to:
+            //      - Accept the session cookie from the login response
+            //      - Send this cookie back in future requests
+
+            // Even though the fetch is "just talking to the API, the credentials: "include" setting is essential for":
+            // 1. Receiving the initial session cookie after login
+            // 2. Sending that cookie back with future requests to maintain the session
+            // 3. Cross-origin cookie handling between the frontend and backend ports
+
+            // Without "credentials" the session system wouldn't work because:
+            // 1. The browser won't accept the session cookie from the login response
+            // 2. Even if it did, it wouldn't send back with future requests
+            // 3. The backend wouldn't be able to identify the logged-in user
 
             // fetch operation is asynchronous, the process will wait until the response
-            const response = await fetch(endpoint, {
+            const response = await fetch(APIEndPoint, {
                 // Defining that the method is POST (sending data),
                 // Headers are telling the server that JSON is being sent
                 method: "POST",
                 headers: { "Content-Type": "application/json" }, // telling the server what data type is being sent
+                credentials: 'include', // Allows cookie exchange
                 body: JSON.stringify(input) // converts the JS object into a JSON string, making it ready for HTTP transmission
             });
 
@@ -68,7 +88,7 @@ const LoginFrom = () => {
                 // if there is data within the response, redirect the user to the dashboard
                 if (data) {
                     // Redirecting the user to the dashboard
-                    window.location.href = "http://localhost:5173/dashboard";
+                    window.location.href = UIEndPoint;
                 }
             } else {
                 // fetching the response data
@@ -117,7 +137,7 @@ const LoginFrom = () => {
             {/* Left side: Login Form */}
             {/* justify-centre items-centre This centres the content both horizontally and vertically inside the div */}
             {/* w-1/2 This makes each side take up 50% of the width of the screen */}
-            <div className="flex justify-center items-center w-1/2 ">
+            <div className="flex justify-center items-center w-1/2">
                 {/* The container is vertically centered in the screen */}
                 {/* w-96 This fixes the width of the login form, so it doesn't stretch too wide */}
                 <div className="text-center p-6 w-96">
@@ -156,12 +176,12 @@ const LoginFrom = () => {
                     <div className="py-6 space-x-4">
                         <button
                             onClick={() => sendData('signIn')}
-                            className='bg-gray-700 text-white rounded-full shadow-2xl shadow-gray-500/50 px-6 py-3 hover:bg-indigo-700 transition-all'>
+                            className='bg-gray-700 text-white rounded-full shadow-2xl shadow-gray-500/50 px-6 py-3 hover:bg-indigo-700 transition-all transform hover:scale-105'>
                             SignIn
                         </button>
                         <button
                             onClick={() => sendData('signUp')}
-                            className='bg-gray-700 text-white rounded-full shadow-2xl shadow-gray-500/50 px-6 py-3 hover:bg-indigo-700 transition-all'>
+                            className='bg-gray-700 text-white rounded-full shadow-2xl shadow-gray-500/50 px-6 py-3 hover:bg-indigo-700 transition-all transform hover:scale-105'>
                             SignUp
                         </button>
                     </div>

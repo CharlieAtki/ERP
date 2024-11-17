@@ -4,6 +4,7 @@ import BookingManagement from './pages/BookingManagement.jsx';
 import Dashboard from './pages/Dashboard';
 import AccountManagement from "./pages/AccountManagement.jsx";
 import ExampleComponent from "./pages/testPage.jsx";
+import TwoFactorAuthentication from "./pages/TwoFactorAuthentication.jsx";
 
 const App = () => {
     // React Routing - Used to manage the different "pages" and "components" within them
@@ -14,6 +15,7 @@ const App = () => {
                 <Route path="/" element={<AccountManagement />} />
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/bookingManagement" element={<BookingManagement />} />
+                <Route path="/twoFactorAuthentication" element={<TwoFactorAuthentication />} />
                 <Route path="/test" element={<ExampleComponent />} />
             </Routes>
         </Router>

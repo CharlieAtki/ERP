@@ -85,7 +85,7 @@ export const clientLogin = (req, res) => {
     const clientPasswordString = String(req.body.password);
     // Searching through the Client collection
     // Looking for a client document, which has the matching attribute values as the input values
-    Client.findOne( {
+    Client.findOne({
         email: clientEmail, // The email will be unique due to the account creation process
     })
 
@@ -93,12 +93,28 @@ export const clientLogin = (req, res) => {
         if (client) {
             const match = await bcrypt.compare(clientPasswordString, client.hashedPassword);
             if (match) {
-                return res.status(200).send({message: 'Client login successful'});
+                req.session = {
+                    userID: client._id.toString(), // Adding the document id to the cookie
+                    email: client.email // Adding the email to the cookie - Both values allow for identification.
+                };
+
+                console.log("Session initialised:", req.session) // Debug Log
+
+                res.status(200).json({
+                    success: true,
+                    message: 'Client login successful'
+                });
             } else {
-                return res.status(401).send({message: 'Bcrypt password comparison failed'});
+                return res.status(401).send({
+                    field: "password", // Specifying the field would allow for user feedback
+                    message: "Incorrect password",
+                });
             }
         } else {
-            return res.status(401).send({message: 'Invalid email or password'});
+            return res.status(401).send({
+                field: "email",
+                message: "Incorrect email or password",
+            });
         }
     })
         // If an error occurs, output the message into the console and set the server status code
@@ -107,4 +123,4 @@ export const clientLogin = (req, res) => {
         console.log('Error SigningIn', err);
         res.status(500).send({ message: 'Error login'});
     });
-}
+};
