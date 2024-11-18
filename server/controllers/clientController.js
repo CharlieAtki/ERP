@@ -31,7 +31,7 @@ export const getAllClients = (req, res) => {
 
 export const addClient = async (req, res) => {
     try {
-        console.log("Received data:", req.body);
+        console.log("AddClient Received data:", req.body); // debug log
 
         // Checking if the input email is already in use
         // The email must be a unique value as it's being used to fetch user specific content.
@@ -93,13 +93,6 @@ export const clientLogin = (req, res) => {
         if (client) {
             const match = await bcrypt.compare(clientPasswordString, client.hashedPassword);
             if (match) {
-                req.session = {
-                    userID: client._id.toString(), // Adding the document id to the cookie
-                    email: client.email // Adding the email to the cookie - Both values allow for identification.
-                };
-
-                console.log("Session initialised:", req.session) // Debug Log
-
                 res.status(200).json({
                     success: true,
                     message: 'Client login successful'
