@@ -93,6 +93,13 @@ export const clientLogin = (req, res) => {
         if (client) {
             const match = await bcrypt.compare(clientPasswordString, client.hashedPassword);
             if (match) {
+                // Adding the users ID and email to the session
+                req.session.user = {
+                    id: client._id,
+                    email: client.email,
+                    // More elements could be added about the user. Eg, "Student" (roles)
+                }
+
                 res.status(200).json({
                     success: true,
                     message: 'Client login successful'
@@ -117,3 +124,17 @@ export const clientLogin = (req, res) => {
         res.status(500).send({ message: 'Error login'});
     });
 };
+
+export const clientLogout = (req, res) => {
+    if (req.session) {
+        req.session.destroy((error) => {
+            if (error) {
+                res.status(500).json({ message: 'Error deleting client', error });
+            } else {
+                res.status(200).json({ message: 'Client logout successful' });
+            }
+        })
+    } else {
+        res.status(200).json({ message: 'Not logged in'});
+    }
+}
