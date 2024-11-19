@@ -12,9 +12,9 @@ const App = () => {
     return (
         <Router>
             <Routes>
-                <Route path="/" element={<AccountManagement />} />
-                <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/accountManagement" element={<AccountManagement />} />
                 <Route path="/bookingManagement" element={<BookingManagement />} />
+                <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/twoFactorAuthentication" element={<TwoFactorAuthentication />} />
                 <Route path="/test" element={<ExampleComponent />} />
             </Routes>

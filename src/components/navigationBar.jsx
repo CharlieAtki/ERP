@@ -38,8 +38,8 @@ const NavigationBar = ({ title, subtitle}) => {
                     <button className={getButtonClass("/bookingManagement")}>Booking</button>
                 </Link>
                 {/* Using React client-side routing, if the button is pressed, route the user to / */}
-                <Link to="/">
-                    <button className={getButtonClass("/")}>Home</button>
+                <Link to="/accountManagement">
+                    <button className={getButtonClass("/accountManagement")}>Home</button>
                 </Link>
             </div>
         </section>

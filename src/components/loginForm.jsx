@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import {useState} from "react";
 
 const LoginFrom = () => {
     // input is for reading the current state value.
@@ -6,9 +6,6 @@ const LoginFrom = () => {
     // For example, input is what would be used within the UI,
     // but setInput is used to update the input when a condition Changes, such as new data in the input field
     const [input, setInput] = useState({ email: "", password: "" }); // state input fields
-    const [savedData, setSavedData] = useState(null) // State to store data from the backend
-
-    const [error, setError] = useState(false)
 
     const [passwordInputError, setPasswordInputError] = useState(false); // To track if there was an error within the password input field
     const [emailInputError, setEmailInputError] = useState(false); // To track if there was an error within the email input field

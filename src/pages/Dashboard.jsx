@@ -1,9 +1,9 @@
-import Hero from '../components/Hero';
 import NavigationBar from "../components/navigationBar.jsx";
-import React from "react";
+import React, {useEffect} from "react";
 import AreaChartComponents from "../components/areaChart.jsx";
 import LineChartComponent from "../components/lineChart.jsx";
 import BarChartComponent from "../components/barChart.jsx";
+import {useNavigate} from "react-router-dom";
 
 
 // "space-y-8 p-4" is used to ensure the distance between each of the child elements is equal.
@@ -29,11 +29,40 @@ import BarChartComponent from "../components/barChart.jsx";
 // which given a more modular/compartmentalised design ascetic
 // shadow-md adds a shadow around the border. This gives the graph components more presence
 
-const Dashboard = () => {
+
+
+function Dashboard() {
+    const navigate = useNavigate(); // React navigation component
+
+    useEffect(() => {
+        const checkLoginStatus = async () => {
+            try {
+                // fetching from the server at the URL input,
+                // this API will check the session to see if the user is logged in
+                const response = await fetch('http://localhost:3000/', {
+                    credentials: 'include', // Used to ensure CORS works as expected
+                });
+                // This is the response from the server
+                const data = await response.json();
+
+                // if the data.valid attribute !== true, redirect to the login page
+                if (!data.valid) {
+                    navigate('/accountManagement');
+                }
+                // If an error occurs, redirect the user to the login page
+            } catch (error) {
+                navigate('/accountManagement');
+            }
+        };
+
+        checkLoginStatus();
+    }, [navigate]);
+
+    // If the user is logged in, render the UI / Page
     return (
         <>
             <div>
-                <NavigationBar title={"Dashboard"} subtitle="Where Data is Visualised" />
+                <NavigationBar title={"Dashboard"} subtitle="Where Data is Visualised"/>
 
                 <div className="space-y-8 p-4">
                     {/* First row of charts */}
@@ -51,7 +80,7 @@ const Dashboard = () => {
 
                     {/* Second row of charts */}
                     <div className="flex space-x-4">
-                    <div className="w-2/4 h-[25vw] border border-gray-300 rounded-lg shadow-md p-4">
+                        <div className="w-2/4 h-[25vw] border border-gray-300 rounded-lg shadow-md p-4">
                             <LineChartComponent/>
                         </div>
                         <div className="w-1/4 h-[25vw] border border-gray-300 rounded-lg shadow-md p-4">
@@ -66,7 +95,7 @@ const Dashboard = () => {
             </div>
         </>
     );
-};
+}
 
 
 export default Dashboard;

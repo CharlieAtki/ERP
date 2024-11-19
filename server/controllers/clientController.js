@@ -105,7 +105,8 @@ export const clientLogin = (req, res) => {
                     message: 'Client login successful'
                 });
             } else {
-                return res.status(401).send({
+                return res.status(401).json({
+                    success: false, // Don't log the user in
                     field: "password", // Specifying the field would allow for user feedback
                     message: "Incorrect password",
                 });
