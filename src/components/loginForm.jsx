@@ -50,7 +50,7 @@ const LoginFrom = () => {
             // Ternary operator to switch the API URL depending on the button pressed
             const APIEndPoint = buttonType === 'signUp' ? 'http://localhost:3000/api/auth/add-client' : 'http://localhost:3000/api/auth/clientLogin';
             // Ternary operator to switch between the different webpages depending on the button pressed
-            const UIEndPoint = buttonType === 'signUp' ? 'http://localhost:5173/twoFactorAuthentication' : 'http://localhost:5173/dashboard';
+            const UIEndPoint = buttonType !== 'signUp' ? 'http://localhost:5173/twoFactorAuthentication' : 'http://localhost:5173/dashboard';
 
             // Explanation why the credentials: "include is used"
             // 1. User logins in successfully

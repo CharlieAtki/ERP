@@ -1,5 +1,7 @@
 import Client from '../models/clientSchema.js';
 import bcrypt from 'bcrypt';
+import error from "eslint-plugin-react/lib/util/error.js";
+import {sendEmail} from "../utils/sendEmail.js";
 
 // Controls how many rounds of hashing are applied to the password before the final hash is produced.
 // This value also determines how complex the hashing process will be,
@@ -60,7 +62,8 @@ export const addClient = async (req, res) => {
             // both email and password are the attributes, which have had data input
             email: req.body.email,
             hashedPassword: hashedPassword, // This is the hashed password
-            businessCode: req.body.businessCode
+            businessCode: req.body.businessCode, // Links the user to the business
+            authenticationCode: '' // the code will be set on request
         });
 
         // Saving the input data into the client document (the input email and password)
@@ -127,15 +130,140 @@ export const clientLogin = (req, res) => {
 };
 
 export const clientLogout = (req, res) => {
+    // Checks to see if there has been a session created
     if (req.session) {
+        // destroy/remove the session
         req.session.destroy((error) => {
+            // if an error occurs, output the error message
             if (error) {
                 res.status(500).json({ message: 'Error deleting client', error });
             } else {
+                // if successful, send the success message
                 res.status(200).json({ message: 'Client logout successful' });
             }
         })
+        // If no session can be found
     } else {
         res.status(200).json({ message: 'Not logged in'});
     }
 }
+
+export const generateTwoFactor = async (req, res) => {
+    const MAX_ATTEMPTS = 1; // Maximum number of code generations allowed
+    const COOLDOWN_MINUTES = 1; // Cooldown period in minutes
+
+    try {
+        // Check if user has exceeded code generation attempts
+        const client = await Client.findById(req.session.user.id);
+        const currentTime = new Date();
+
+        if (client.twoFactorAttempts && client.twoFactorAttempts.count >= MAX_ATTEMPTS) {
+            // Check if cooldown period has passed
+            const timeSinceLastAttempt = (currentTime - client.twoFactorAttempts.lastAttempt) / (1000 * 60);
+            if (timeSinceLastAttempt < COOLDOWN_MINUTES) {
+                return res.status(429).json({
+                    success: false,
+                    message: `Too many attempts. Please try again in ${Math.ceil(COOLDOWN_MINUTES - timeSinceLastAttempt)} minutes.`
+                });
+            }
+        }
+
+        const generateRandomCode = () => {
+        return Math.floor(1000 + Math.random() * 9000); // generating a 4 digit code
+        };
+
+        const newCode = generateRandomCode();
+
+        const updatedClient = await Client.findOneAndUpdate(
+            // need to switch to using the email rather than the id to allow the email to be sent to other users email accounts
+            // _id is used to identify the Client document
+            // req.session.user.id is the saved Client document id from the session created during login.
+            // By using this value, I can update the clients document
+            { _id: req.session.user.id },
+            {
+                $set: {
+                    authenticationCode: newCode,
+                    createdAt: new Date(),
+                    twoFactorAttempts: {
+                        count: (client.twoFactorAttempts?.count || 0) + 1,
+                        lastAttempt: currentTime
+                    }
+                }
+            },
+            { new: true }
+        );
+
+        // Reset attempts if cooldown has passed
+        if (client.twoFactorAttempts?.count >= MAX_ATTEMPTS) {
+            await Client.findByIdAndUpdate(req.session.user.id, {
+                $set: {
+                    'twoFactorAttempts.count': 1,
+                    'twoFactorAttempts.lastAttempt': currentTime
+                }
+            });
+        }
+
+        await sendEmail(
+            req.session.user.email,
+            "Two Factor Authentication Code",
+            `Your authentication code is: ${newCode}`
+        );
+
+        res.json({
+            success: true,
+            message: '2FA code generated and sent'
+        });
+    } catch (err) {
+        console.error('Error generating 2FA code:', err);
+        res.status(500).json({
+            success: false,
+            message: 'Error generating 2FA code'
+        });
+    }
+};
+
+export const verify2FACode = async (req, res) => {
+    try {
+        const { authenticationCode } = req.body;
+
+        if (!authenticationCode) {
+            return res.status(400).json({
+                success: false,
+                message: 'Authentication Code is required'
+            });
+        }
+        // finding the client document after validating their account.
+        // This is to delete the 2FA code from their account after use
+        const client = await Client.findOne({
+            _id: req.session.user.id,
+            authenticationCode: authenticationCode
+        });
+
+        if (!client) {
+            return res.status(401).json({
+                success: false,
+                message: 'Invalid Authentication Code'
+            });
+        }
+
+        // Removing the code
+        await Client.findOneAndUpdate(
+            { _id: req.session.user.id },
+            { $set: { authenticationCode: null } }
+        );
+
+        // adding the twoFactorAuthenticationCode attribute to identify if the user has been authenticated
+        req.session.twoFactorAuthenticationCode = true;
+
+        res.json({
+            success: true,
+            message: '2FA code verified',
+        });
+    } catch (err) {
+        console.error('Error verifying 2FA code:', err);
+        res.status(500).json({
+            success: false,
+            message: 'Error verifying 2FA code'
+        });
+    }
+};

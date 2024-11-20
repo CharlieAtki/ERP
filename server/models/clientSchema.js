@@ -12,6 +12,13 @@ const clientSchema = new mongoose.Schema({
     },
     businessCode: {
         type: String,
+    },
+    authenticationCode: {
+        type: String,
+    },
+    twoFactorAttempts: {
+        count: Number,
+        lastAttempt: Date
     }
 }, { timestamps: true }, {collection: 'Client'});
 

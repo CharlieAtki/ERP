@@ -1,7 +1,8 @@
-import { useLocation, Link } from 'react-router-dom';
+import {useLocation, Link, useNavigate} from 'react-router-dom';
 
 const NavigationBar = ({ title, subtitle}) => {
     const location = useLocation(); // Get the current location (URL path)
+    const navigate = useNavigate();
 
     // Function that compares the buttons path url and the current url
     // Used to improve user-feedback as if the url's match, the button is indigo rather than grey
@@ -11,6 +12,26 @@ const NavigationBar = ({ title, subtitle}) => {
             ? 'bg-indigo-700 text-white rounded-full shadow-2xl shadow-indigo-500/50 px-8 py-3 transform scale-110' // Active state
             // If falsy (the URL does not match the buttons path, inactive state (don's change the colour)
             : 'bg-gray-700 text-white rounded-full shadow-2xl shadow-gray-500/50 px-8 py-3 hover:bg-indigo-700 transition-all transform hover:scale-105'; // Inactive state
+    };
+
+    const handleLogOut = async () => {
+        try {
+            const response = await fetch('http://localhost:3000/api/auth/clientLogout', {
+                method: 'GET',
+                headers: {'Content-Type': 'application/json'},
+                credentials: 'include',
+            });
+
+            if (response.ok) {
+                const result = await response.json();
+                console.log(result.message);
+                navigate('/accountManagement');
+            } else {
+                console.error('Logout failed');
+            }
+        } catch (error) {
+            console.error('Logout error', error);
+        }
     };
 
     return (
@@ -38,9 +59,11 @@ const NavigationBar = ({ title, subtitle}) => {
                     <button className={getButtonClass("/bookingManagement")}>Booking</button>
                 </Link>
                 {/* Using React client-side routing, if the button is pressed, route the user to / */}
-                <Link to="/accountManagement">
-                    <button className={getButtonClass("/accountManagement")}>Home</button>
-                </Link>
+                <button
+                    onClick={handleLogOut}
+                    className={getButtonClass("/accountManagement")}>
+                    Log Out
+                </button>
             </div>
         </section>
     );
