@@ -62,34 +62,65 @@ function Dashboard() {
     return (
         <>
             <div>
-                <NavigationBar title={"Dashboard"} subtitle="Where Data is Visualised"/>
+                <NavigationBar title={"Dashboard"} subtitle="Where Data is Visualised" className="bg-gradient-to-r from-blue-500 via-purple-600 to-indigo-700 text-white p-4" />
 
                 <div className="space-y-8 p-4">
                     {/* First row of charts */}
-                    <div className="flex space-x-4">
-                        <div className="w-1/4 h-[25vw] border border-gray-300 rounded-lg shadow-md p-4">
-                            <AreaChartComponents/>
+                    <div className="flex space-x-4 gap-6">
+                        <div
+                            className="w-full h-[25vw] border border-gray-100 rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300 p-6">
+                            <h3 className="text-l font-sans text-gray-600 mb-2 text-center">Total Bookings vs Revenue Per Booking</h3>
+                            <AreaChartComponents metricOne={"totalBookings"} metricTwo={"revenuePerBooking"}/>
                         </div>
-                        <div className="w-1/4 h-[25vw] border border-gray-300 rounded-lg shadow-md p-4">
-                            <BarChartComponent/>
+                        <div
+                            className="w-full h-[25vw] border border-gray-100 rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300 p-6">
+                            <h3 className="text-l font-sans text-gray-600 mb-2 text-center">Cost Per Booking vs Revenue Per Booking</h3>
+                            <BarChartComponent metricOne={"costPerBooking"} metricTwo={"revenuePerBooking"}/>
                         </div>
-                        <div className="w-2/4 h-[25vw] border border-gray-300 rounded-lg shadow-md p-4">
-                            <AreaChartComponents/>
+                        <div
+                            className="w-full h-[25vw] border border-gray-100 rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300 p-6">
+                            <h3 className="text-l font-sans text-gray-600 mb-2 text-center">No Show Rate vs Cancellation Rate</h3>
+                            <AreaChartComponents metricOne={"noShowRate"} metricTwo={"cancellationRate"}/>
                         </div>
                     </div>
 
                     {/* Second row of charts */}
-                    <div className="flex space-x-4">
-                        <div className="w-2/4 h-[25vw] border border-gray-300 rounded-lg shadow-md p-4">
-                            <LineChartComponent/>
+                    <div className="flex space-x-4 gap-6">
+                        <div
+                            className="w-1/4 h-[25vw] border border-gray-100 rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300 p-6">
+                            <h3 className="text-l font-sans text-gray-600 mb-2 text-center">Customer Retention Rate vs Booking Lead Time</h3>
+                            <LineChartComponent metricOne={"customerRetentionRate"} metricTwo={"bookingLeadTime"}/>
                         </div>
-                        <div className="w-1/4 h-[25vw] border border-gray-300 rounded-lg shadow-md p-4">
-                            <BarChartComponent/>
+                        <div
+                            className="w-1/4 h-[25vw] border border-gray-100 rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300 p-6">
+                            <h3 className="text-l font-sans text-gray-600 mb-2 text-center">Cost Per Booking vs Revenue Per Booking</h3>
+                            <BarChartComponent metricOne={"totalBookings"} metricTwo={"demandForecasting"}/>
                         </div>
-                        <div className="w-1/4 h-[25vw] border border-gray-300 rounded-lg shadow-md p-4">
-                            <AreaChartComponents/>
+                        <div
+                            className="w-1/4 h-[25vw] border border-gray-100 rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300 p-6">
+                            <h3 className="text-l font-sans text-gray-600 mb-2 text-center">Average Booking Value vs Cost Per Booking</h3>
+                            <AreaChartComponents metricOne={"averageBookingValue"} metricTwo={"costPerBooking"}/>
+                        </div>
+                        <div
+                            className="w-1/4 h-[25vw] border border-gray-100 rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300 p-6">
+                            <h3 className="text-l font-sans text-gray-600 mb-2 text-center">Seasonal Booking Trends vs Occupancy Rate</h3>
+                            <LineChartComponent metricOne={"seasonalBookingTrends"} metricTwo={"occupancyRate"}/>
                         </div>
 
+                    </div>
+
+                    {/* Third row of charts */}
+                    <div className="flex space-x-4 gap-6">
+                        <div
+                            className="w-3/4 h-[25vw] border border-gray-100 rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300 p-6">
+                            <h3 className="text-l font-sans text-gray-600 mb-2 text-center">Booking Conversion Rate vs Cancellation Rate</h3>
+                            <AreaChartComponents metricOne={"bookingConversionRate"} metricTwo={"cancellationRate"}/>
+                        </div>
+                        <div
+                            className="w-1/4 h-[25vw] border border-gray-100 rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300 p-6">
+                            <h3 className="text-l font-sans text-gray-600 mb-2 text-center">Booking Lead Time vs Seasonal Booking Trends</h3>
+                            <LineChartComponent metricOne={"bookingLeadTime"} metricTwo={"seasonalBookingTrends"}/>
+                        </div>
                     </div>
                 </div>
             </div>

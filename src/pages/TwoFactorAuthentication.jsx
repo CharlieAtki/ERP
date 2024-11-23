@@ -115,9 +115,8 @@ const TwoFactorAuthentication = () => {
     return (
         <section className="flex items-center justify-center h-screen bg-gradient-to-br from-gray-900 to-indigo-700">
             <div
-                className="flex justify-center items-center w-full max-w-md px-12 border-2 border-gray-700 p-8 text-lg rounded-3xl shadow-2xl bg-white">
+                className="flex justify-center items-center w-full max-w-md px-12 border-2 border-gray-700 p-4 text-lg rounded-3xl shadow-2xl bg-white">
                 <div className="text-center p-6 w-full">
-                    <h1 className="pt-6 text-3xl font-bold text-gray-800">Logo</h1>
                     <h1 className="py-4 text-xl font-semibold text-gray-700">Authentication Code Input</h1>
                     <div className="flex flex-col gap-6">
                         <input type="password"

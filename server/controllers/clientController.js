@@ -1,6 +1,5 @@
 import Client from '../models/clientSchema.js';
 import bcrypt from 'bcrypt';
-import error from "eslint-plugin-react/lib/util/error.js";
 import {sendEmail} from "../utils/sendEmail.js";
 
 // Controls how many rounds of hashing are applied to the password before the final hash is produced.
@@ -62,7 +61,7 @@ export const addClient = async (req, res) => {
             // both email and password are the attributes, which have had data input
             email: req.body.email,
             hashedPassword: hashedPassword, // This is the hashed password
-            businessCode: req.body.businessCode, // Links the user to the business
+            businessCode: 'TEST CODE', // Links the user to the business - use null once I have a way on inputting the value
             authenticationCode: '' // the code will be set on request
         });
 
@@ -96,10 +95,12 @@ export const clientLogin = (req, res) => {
         if (client) {
             const match = await bcrypt.compare(clientPasswordString, client.hashedPassword);
             if (match) {
-                // Adding the users ID and email to the session
+                // Adding the users ID, email and business code to the session
+                // This allows the values to be accessed across the express backend
                 req.session.user = {
                     id: client._id,
                     email: client.email,
+                    businessCode: client.businessCode,
                     // More elements could be added about the user. Eg, "Student" (roles)
                 }
 

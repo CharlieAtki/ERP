@@ -71,13 +71,6 @@ app.get('/', (req, res) => {
         return res.status(401).json({valid: false, user: null});
     }
 })
-// checking session persistence - temp
-app.use((req, res, next) => {
-    console.log("Session:", req.session);
-    console.log("Cookies:", req.cookies);
-    next();
-});
-
 
 app.use('/api/business', restrictedMiddleware, businessRoutes) // adding the business routes to the server
 app.use('/api/client', restrictedMiddleware, clientRoutes) // adding the client routes to the server

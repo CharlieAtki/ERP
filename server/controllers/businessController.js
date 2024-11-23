@@ -44,17 +44,84 @@ export const addBusiness = (req, res) => {
         });
 };
 
-export const getGraphData = (req, res) => {
+// The graph data fetching will need to be modified to allow for multiple business documents to be found
+// The data fetching algorithm will use weeks data value on each point of the graph, this will be used to smoothen out the data
+// Maybe used fetchMultiple() ? and the iterate through each element of the array to add data to the graphs
+
+//export const getGraphData = (req, res) => {
     // This API is used to fetch data from the database.
     // The algorithm currently has a manual input for which business data to find,
     // but eventually, the program will send the business code
-    Business.find( { businessCode: "BIZ124" })
-        .then((result) => res.send(result))
-        .catch((err) => {
-            console.log('Error saving business', err);
-            res.status(500).send('Error fetching business data')
+   // Business.find( { businessCode: "BIZ124" })
+      //  .then((result) => res.send(result))
+     //   .catch((err) => {
+       //     console.log('Error saving business', err);
+     //       res.status(500).send('Error fetching business data')
+       // });
+//}
+
+export const getGraphData = async (req, res) => {
+    try {
+        // Using MongoDB aggregation to fetch multiple documents and then map each metric data into a separate array
+        // This will allow my program to easily visualise the data
+        // Additionally, I have included the weekStartDate and weekEndDate as I may use this within the axis of the graph
+        // This structure is useful when trying to show the weekly periods alongside their metrics in the response
+        // filtering between dates can be included within the aggregation search, but I haven't included this feature within the current algorithm.
+        // This feature would require further UI additions, which may be unfeasible within my NEA time frame.
+        const metrics = await Business.aggregate([
+            { $match: { businessCode: req.session.user.businessCode} }, // filter by business
+            { $sort: { weekStartDate: 1 } }, // Sorted by weekStart date (the value is stored in the business document)
+            {
+                $group: {
+                    _id: null,
+                    metricData: {
+                        $push: {
+                            weekStartDate: "$weekStartDate",
+                            weekEndDate: "$weekEndDate",
+                            totalBookings: "$totalBookings",
+                            occupancyRate: "$occupancyRate",
+                            cancellationRate: "$cancellationRate",
+                            bookingLeadTime: "$bookingLeadTime",
+                            noShowRate: "$noShowRate",
+                            revenuePerBooking: "$revenuePerBooking",
+                            bookingConversionRate: "$bookingConversionRate",
+                            averageBookingValue: "$averageBookingValue",
+                            paymentStatus: "$paymentStatus",
+                            costPerBooking: "$costPerBooking",
+                            customerRetentionRate: "$customerRetentionRate",
+                            seasonalBookingTrends: "$seasonalBookingTrends",
+                            demandForecasting: "$demandForecasting"
+                        },
+                    },
+                },
+            },
+        ]);
+
+        // Check if data exists
+        if (!metrics || metrics.length === 0) {
+            return res.status(404).json({
+                message: 'No metrics found.',
+                success: false,
+            });
+        }
+
+        // Send the 'metricData' array to the frontend
+        res.status(200).json({
+            success: true,
+            // the aggregation returns an array with one object because _id: null groups all documents into a single group
+            // metrics[0] accesses that single object
+            // metrics[0].metricData contains the array of weekly data that you want to send to the frontend
+            data: metrics[0].metricData, // Extract 'metricData' from the first (and only) element
         });
-}
+
+    } catch (error) {
+        console.error("Error fetching graph data", error)
+        res.status(500).json({
+            message: 'Failed to fetch graph data',
+            success: false
+        });
+    }
+};
 
 export const getWeeklyData = (req, res) => {
     // Defining the conditions, the business document must match the Code, weekStartDate and weekEndDate.

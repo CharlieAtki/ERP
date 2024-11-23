@@ -35,11 +35,11 @@ const NavigationBar = ({ title, subtitle}) => {
     };
 
     return (
-        <section className="flex justify-between items-center px-8 py-8">
+        <section className="flex justify-between items-center px-8 py-8 gap-x-4">
             {/* Title on the left */}
             {/* sm:text-2xl - On small screens, the text is 2xl*/}
             {/* md:text-2xl - On medium screens, the text is 4xl*/}
-            <div className="text-left">
+            <div className="text-left mr-auto">
                 <h1 className="font-extrabold text-indigo-700 sm:text-2xl md:text-4xl">
                     {title}
                 </h1>

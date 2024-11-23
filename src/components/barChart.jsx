@@ -8,41 +8,50 @@ import {
     Tooltip,
     Legend,
 } from "recharts";
+import {useEffect, useState} from "react";
 
-// data for reference
-const testData = [
-    {
-        name: 'Jan',
-        product1: 4000,
-        product2: 2400
-    },
-    {
-        name: 'Feb',
-        product1: 3000,
-        product2: 2210
-    },
-    {
-        name: 'Mar',
-        product1: 2000,
-        product2: 2290
-    },
-    {
-        name: 'Apr',
-        product1: 2780,
-        product2: 2000
-    },
-    {
-        name: 'May',
-        product1: 1890,
-        product2: 2181
-    },
-    {
-        name: 'Jun',
-        product1: 2390,
-        product2: 2500
+const BarChartComponent = ({ metricOne, metricTwo}) => {
+    const [graphData, setGraphData] = useState([]) // state to store dynamic graph data
+    const [error, setError] = useState(false) // state to handle errors
+
+    useEffect(() => {
+        const fetchGraphData = async () => {
+            try {
+                const response = await fetch('http://localhost:3000/api/business/get-graph-data', {
+                    method: "GET",
+                    headers: { "Content-Type": "application/json" },
+                    credentials: 'include',
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    if (result.success) {
+                        const transformedData = result.data.map((item) => ({
+                            name: `${item.weekStartDate} - ${item.weekEndDate}`, // label for X-axis
+                            [metricOne]: item[metricOne], // Dynamically map metricOne
+                            [metricTwo]: item[metricTwo], // Dynamically map metricTwo
+                        }));
+                        setGraphData(transformedData);
+                    } else {
+                        setError(true);
+                        console.error("Error fetching graph data");
+                    }
+                } else {
+                    setError(true);
+                    console.log("Error fetching graph data");
+                }
+            } catch (error) {
+                setError(true);
+                console.log('Error fetching graph data', error);
+            }
+        };
+        fetchGraphData();
+    }, [metricOne, metricTwo]); // Refresh data when metrics change
+
+    if (error) {
+        return <p className="text-red-500">Failed to fetch graph data. Please try again later.</p>;
     }
-]
-const BarChartComponent = () => {
+
     return (
         // PS made the graph responsive once it's been added into a container
 
@@ -57,16 +66,48 @@ const BarChartComponent = () => {
         // StackId allows the visualised data to be added on top of one another.
 
         <ResponsiveContainer width="100%" height="100%">
-            <BarChart width={500} height={500} data={testData}>
-                <YAxis />
-                <XAxis dataKey="name" />
+            <BarChart data={graphData} margin={{ top: 20, right: 30, left: 20, bottom: 20 }}>
+
+                {/* Axes with labels */}
+                    <XAxis
+                        dataKey="name"
+                        label={{
+                            value: "Weeks", // X-axis label
+                            position: "insideBottom",
+                            offset: -5,
+                            style: { fontSize: 14, fill: "#555" },
+                        }}
+                        tick={{ fontSize: 12, fill: "#666" }} // Tick styling
+                    />
+                    <YAxis
+                        label={{
+                            value: metricOne, // Y-axis label
+                            angle: -90,
+                            position: "insideLeft",
+                            style: { textAnchor: "middle", fontSize: 14, fill: "#555" },
+                        }}
+                        tick={{ fontSize: 12, fill: "#666" }} // Tick styling
+                    />
                 <CartesianGrid strokeDasharray="5 5" />
-                <Tooltip content={<CustomTooltip />} />
-                <Legend />
+                <Tooltip
+                    content={
+                        <CustomTooltip
+                            metricOne={metricOne}
+                            metricTwo={metricTwo}
+                        />
+                    }
+                />
+                <Legend
+                    wrapperStyle={{
+                        paddingTop: "20px", // Adds space above the legend
+                        textAlign: "center", // Centers the legend horizontally
+                    }}
+                />
+
 
                 <Bar
                     type="monotone"
-                    dataKey="product1"
+                    dataKey={metricOne}
                     stroke="#2563eb"
                     fill="#3b82f6"
                     stackId="1"
@@ -74,7 +115,8 @@ const BarChartComponent = () => {
 
                 <Bar
                     type="monotone"
-                    dataKey="product2"
+                    dataKey={metricTwo}
+                    radius={[5, 5, 0, 0]} // Rounded corners
                     stroke="#7c3aed"
                     fill="#8b5cf6"
                     stackId="1"
@@ -86,17 +128,17 @@ const BarChartComponent = () => {
 
 
 // Custom Tooltip - Changes the UI of the tooltip to make it more intuitive
-const CustomTooltip = ({ active, payload, label }) => {
+const CustomTooltip = ({ active, payload, label, metricOne, metricTwo }) => {
     if (active && payload && payload.length) {
         return (
              <div className="p-4 bg-slate-900 flex flex-col gap-4 rounded-md">
                  <p className="text-medium text-lg text-white">{label}</p>
                  <p className="text-sm text-blue-400">
-                    product 1:
+                    {metricOne}:
                     <span className="ml-2">${payload[0].value}</span>
                  </p>
                  <p className="text-sm text-indigo-400">
-                     Product 2:
+                     {metricTwo}:
                      <span className="ml-2">${payload[1].value}</span>
                  </p>
              </div>

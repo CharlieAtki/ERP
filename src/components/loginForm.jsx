@@ -137,9 +137,8 @@ const LoginFrom = () => {
             <div className="flex justify-center items-center w-1/2">
                 {/* The container is vertically centered in the screen */}
                 {/* w-96 This fixes the width of the login form, so it doesn't stretch too wide */}
-                <div className="text-center p-6 w-96">
-                    <h1 className="pt-6 text-3xl font-bold">Logo</h1>
-                    <h1 className="py-4 text-xl">Sign into ERP System</h1>
+                <div className="text-center p-6 w-96 border-2 border-gray-700 p-4 text-lg rounded-3xl shadow-2xl">
+                    <h1 className="py-4 text-xl font-semibold text-gray-700">Apprise ERP Account Management</h1>
                     <div className="flex flex-col gap-4">
                         {/* Input fields - Temp, use the React input boxes */}
                         {/* focus:outline-none - Removes the default outline of focus */}
