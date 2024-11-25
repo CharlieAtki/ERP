@@ -70,17 +70,17 @@ function Dashboard() {
                         <div
                             className="w-full h-[25vw] border border-gray-100 rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300 p-6">
                             <h3 className="text-l font-sans text-gray-600 mb-2 text-center">Total Bookings vs Revenue Per Booking</h3>
-                            <AreaChartComponents metricOne={"totalBookings"} metricTwo={"revenuePerBooking"}/>
+                            <AreaChartComponents metricOne={"totalBookings"} metricTwo={"revenuePerBooking"} metricOneUnit={"Units"} metricTwoUnit={"GBP"}/>
                         </div>
                         <div
                             className="w-full h-[25vw] border border-gray-100 rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300 p-6">
                             <h3 className="text-l font-sans text-gray-600 mb-2 text-center">Cost Per Booking vs Revenue Per Booking</h3>
-                            <BarChartComponent metricOne={"costPerBooking"} metricTwo={"revenuePerBooking"}/>
+                            <BarChartComponent metricOne={"costPerBooking"} metricTwo={"revenuePerBooking"} metricOneUnit={"GBP"} metricTwoUnit={"GBP"}/>
                         </div>
                         <div
                             className="w-full h-[25vw] border border-gray-100 rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300 p-6">
                             <h3 className="text-l font-sans text-gray-600 mb-2 text-center">No Show Rate vs Cancellation Rate</h3>
-                            <AreaChartComponents metricOne={"noShowRate"} metricTwo={"cancellationRate"}/>
+                            <AreaChartComponents metricOne={"noShowRate"} metricTwo={"cancellationRate"} metricOneUnit={"%"} metricTwoUnit={"%"}/>
                         </div>
                     </div>
 
@@ -89,22 +89,22 @@ function Dashboard() {
                         <div
                             className="w-1/4 h-[25vw] border border-gray-100 rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300 p-6">
                             <h3 className="text-l font-sans text-gray-600 mb-2 text-center">Customer Retention Rate vs Booking Lead Time</h3>
-                            <LineChartComponent metricOne={"customerRetentionRate"} metricTwo={"bookingLeadTime"}/>
+                            <LineChartComponent metricOne={"customerRetentionRate"} metricTwo={"bookingLeadTime"} metricOneUnit={"%"} metricTwoUnit={"Days"} />
                         </div>
                         <div
                             className="w-1/4 h-[25vw] border border-gray-100 rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300 p-6">
-                            <h3 className="text-l font-sans text-gray-600 mb-2 text-center">Cost Per Booking vs Revenue Per Booking</h3>
-                            <BarChartComponent metricOne={"totalBookings"} metricTwo={"demandForecasting"}/>
+                            <h3 className="text-l font-sans text-gray-600 mb-2 text-center">Total Bookings vs Demand Forecasting</h3>
+                            <BarChartComponent metricOne={"totalBookings"} metricTwo={"demandForecasting"} metricOneUnit={"Units"} metricTwoUnit={"Units"} />
                         </div>
                         <div
                             className="w-1/4 h-[25vw] border border-gray-100 rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300 p-6">
                             <h3 className="text-l font-sans text-gray-600 mb-2 text-center">Average Booking Value vs Cost Per Booking</h3>
-                            <AreaChartComponents metricOne={"averageBookingValue"} metricTwo={"costPerBooking"}/>
+                            <AreaChartComponents metricOne={"averageBookingValue"} metricTwo={"costPerBooking"} metricOneUnit={"GBP"} metricTwoUnit={"GBP"} />
                         </div>
                         <div
                             className="w-1/4 h-[25vw] border border-gray-100 rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300 p-6">
                             <h3 className="text-l font-sans text-gray-600 mb-2 text-center">Seasonal Booking Trends vs Occupancy Rate</h3>
-                            <LineChartComponent metricOne={"seasonalBookingTrends"} metricTwo={"occupancyRate"}/>
+                            <LineChartComponent metricOne={"seasonalBookingTrends"} metricTwo={"occupancyRate"} metricOneUnit={""} metricTwoUnit={"%"}/>
                         </div>
 
                     </div>
@@ -114,12 +114,12 @@ function Dashboard() {
                         <div
                             className="w-3/4 h-[25vw] border border-gray-100 rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300 p-6">
                             <h3 className="text-l font-sans text-gray-600 mb-2 text-center">Booking Conversion Rate vs Cancellation Rate</h3>
-                            <AreaChartComponents metricOne={"bookingConversionRate"} metricTwo={"cancellationRate"}/>
+                            <AreaChartComponents metricOne={"bookingConversionRate"} metricTwo={"cancellationRate"} metricOneUnit={"%"} metricTwoUnit={"%"} />
                         </div>
                         <div
                             className="w-1/4 h-[25vw] border border-gray-100 rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300 p-6">
                             <h3 className="text-l font-sans text-gray-600 mb-2 text-center">Booking Lead Time vs Seasonal Booking Trends</h3>
-                            <LineChartComponent metricOne={"bookingLeadTime"} metricTwo={"seasonalBookingTrends"}/>
+                            <LineChartComponent metricOne={"bookingLeadTime"} metricTwo={"seasonalBookingTrends"} metricOneUnit={"Days"} metricTwoUnit={""} />
                         </div>
                     </div>
                 </div>

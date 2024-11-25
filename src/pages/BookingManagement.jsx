@@ -2,6 +2,8 @@ import React, {useEffect} from "react";
 import DynamicTable from "../components/test.jsx";
 import NavigationBar from "../components/navigationBar.jsx";
 import {useNavigate} from "react-router-dom";
+import BusinessCreationForm from "../components/businessCreationForm.jsx";
+import BusinessDataDisplay from "../components/businessDataDisplay.jsx";
 function BookingManagement() {
     const navigate = useNavigate(); // React navigation component
 
@@ -31,7 +33,10 @@ function BookingManagement() {
     return (
         <>
             <NavigationBar title={"Dashboard"} subtitle={"Where Metrics Are Managed"} />
-            <DynamicTable />
+            <div className="flex space-x-4 gap-6 p-6">
+                <BusinessCreationForm />
+                <BusinessDataDisplay />
+            </div>
         </>
     );
 }

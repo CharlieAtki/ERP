@@ -8,7 +8,9 @@ const LoginFrom = () => {
     const [input, setInput] = useState({ email: "", password: "" }); // state input fields
 
     const [passwordInputError, setPasswordInputError] = useState(false); // To track if there was an error within the password input field
+    const [passwordInputLengthError, setPasswordInputLengthError] = useState(false); // To track is the input password is long enough
     const [emailInputError, setEmailInputError] = useState(false); // To track if there was an error within the email input field
+    const [emailInputValidityError, setEmailInputValidityError] = useState(false); // To track if the email contains an @ symbol
 
     // Function to get input field class based on error state
     // Used to improve user feedback + inform the user, which input is incorrect
@@ -24,6 +26,16 @@ const LoginFrom = () => {
             : 'border-gray-300'; // If no error, apply default border
     };
 
+    // of loop iterates over each element of the string until the conditions specified are satisfied
+    const emailValidityCheck = (email) => {
+        for (let character of email) {
+            if (character === '@') {
+                return true
+            }
+        }
+        return false; // the input email is not valid -> no @ symbol
+    }
+
 
     // This asynchronous function is used to send and then receive data from backend
     // Data, such as email and password will be transferred
@@ -31,20 +43,33 @@ const LoginFrom = () => {
         // Reset error states before submitting
         setEmailInputError(false);
         setPasswordInputError(false);
+        setPasswordInputLengthError(false);
+        setEmailInputValidityError(false);
+
+        let hasError = false; // Track if there are any errors
+
 
         // Check for empty input fields
         if (!input.email) {
             setEmailInputError(true); // Set email error to true if empty
+            hasError = true;
+        // Calling a function to check if the email contains an @ symbol
+        } else if (!emailValidityCheck(input.email)) {
+            setEmailInputValidityError(true) // the data input doesn't contain an @ symbol
+            hasError = true;
         }
+
+
         if (!input.password) {
             setPasswordInputError(true); // Set password error to true if empty
+            hasError = true;
+        } else if (input.password.length < 8) {
+            setPasswordInputLengthError(true);
+            hasError = true
         }
 
         // If there are errors, don't proceed with sending data
-        if (input.email === "" || input.password === "") {
-            setError(true); // If fields are empty, show the error state
-            return; // Prevent sending data
-        }
+        if (hasError) return
 
         try {
             // Ternary operator to switch the API URL depending on the button pressed
@@ -106,7 +131,6 @@ const LoginFrom = () => {
                 console.log("Error Response Data:", data);
             }
         } catch (err) {
-            setError(true);  // Mark input fields with an error
             // If an error occurs, output the error into the console
             console.log('Error saving client', err)
         }
@@ -164,7 +188,13 @@ const LoginFrom = () => {
                         />
                         {/* When there is an emailInputError, the text below appears to inform the user what input is incorrect*/}
                         {emailInputError && (
-                            <p className="text-red-500 text-sm mt-1">Please Enter an Alternative Email.</p>
+                            <p className="text-red-500 text-sm mt-1">Email Already Taken</p>
+                        )}
+                        {emailInputValidityError && (
+                            <p className="text-red-500 text-sm mt-1">Invalid Email</p>
+                        )}
+                        {passwordInputLengthError && (
+                            <p className="text-red-500 text-sm mt-1">Password Not Long Enough</p>
                         )}
                     </div>
                     {/* SignIn and SignUp buttons */}
@@ -173,12 +203,12 @@ const LoginFrom = () => {
                         <button
                             onClick={() => sendData('signIn')}
                             className='bg-gray-700 text-white rounded-full shadow-2xl shadow-gray-500/50 px-6 py-3 hover:bg-indigo-700 transition-all transform hover:scale-105'>
-                            SignIn
+                            Sign In
                         </button>
                         <button
                             onClick={() => sendData('signUp')}
                             className='bg-gray-700 text-white rounded-full shadow-2xl shadow-gray-500/50 px-6 py-3 hover:bg-indigo-700 transition-all transform hover:scale-105'>
-                            SignUp
+                            Sign Up
                         </button>
                     </div>
                 </div>

@@ -10,7 +10,7 @@ import {
 } from "recharts";
 import {useEffect, useState} from "react";
 
-const AreaChartComponents = ({ metricOne, metricTwo }) => {
+const AreaChartComponents = ({ metricOne, metricTwo, metricOneUnit, metricTwoUnit }) => {
     const [graphData, setGraphData] = useState([]) // state to store dynamic graph data
     const [error, setError] = useState(false) // state to handle errors
 
@@ -80,7 +80,7 @@ const AreaChartComponents = ({ metricOne, metricTwo }) => {
                     />
                     <YAxis
                         label={{
-                            value: metricOne, // Y-axis label
+                            value: "Metric Value", // Y-axis label
                             angle: -90,
                             position: "insideLeft",
                             style: { textAnchor: "middle", fontSize: 14, fill: "#555" },
@@ -93,6 +93,8 @@ const AreaChartComponents = ({ metricOne, metricTwo }) => {
                         <CustomTooltip
                             metricOne={metricOne}
                             metricTwo={metricTwo}
+                            metricOneUnit={metricOneUnit}
+                            metricTwoUnit={metricTwoUnit}
                         />
                     }
                 />
@@ -125,18 +127,18 @@ const AreaChartComponents = ({ metricOne, metricTwo }) => {
 
 
 // Custom Tooltip - Changes the UI of the tooltip to make it more intuitive
-const CustomTooltip = ({ active, payload, label, metricOne, metricTwo }) => {
+const CustomTooltip = ({ active, payload, label, metricOne, metricTwo, metricOneUnit, metricTwoUnit }) => {
     if (active && payload && payload.length) {
         return (
              <div className="p-4 bg-slate-900 flex flex-col gap-4 rounded-md">
                  <p className="text-medium text-lg text-white">{label}</p>
                  <p className="text-sm text-blue-400">
                      {metricOne}:
-                    <span className="ml-2">${payload[0].value}</span>
+                    <span className="ml-2">{`${payload[0].value} ${metricOneUnit || ''}`}</span>
                  </p>
                  <p className="text-sm text-indigo-400">
                      {metricTwo}:
-                     <span className="ml-2">${payload[1].value}</span>
+                     <span className="ml-2">{`${payload[0].value} ${metricTwoUnit || ''}`}</span>
                  </p>
              </div>
         );
