@@ -33,9 +33,9 @@ function BookingManagement() {
     return (
         <>
             <NavigationBar title={"Dashboard"} subtitle={"Where Metrics Are Managed"} />
-            <div className="flex space-x-4 gap-6 p-6">
-                <BusinessCreationForm />
+            <div className="p-6 space-y-6">
                 <BusinessDataDisplay />
+                <BusinessCreationForm />
             </div>
         </>
     );

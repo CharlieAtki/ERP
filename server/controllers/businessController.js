@@ -1,6 +1,7 @@
 // controllers/businessController.js
 import Business from '../models/businessSchema.js';
-import { getWeekRange } from '../utils/getWeekRange.js'; // Import the utility function
+import { getWeekRange } from '../utils/getWeekRange.js';
+import session from "express-session"; // Import the utility function
 
 // Controller function to handle creating a new business document
 export const addBusiness = async (req, res) => {
@@ -34,8 +35,9 @@ export const addBusiness = async (req, res) => {
         // If the metric from the frontend is undefined, the user does not want to modify that value
         // If the metric has had a value passed, add the value to the updatedData object. Each metric would become an attribute
         metrics.forEach((metric) => {
-            if (req.body[metric] !== undefined) {
-                updateData[metric] = req.body[metric];
+            const value = req.body[metric];
+            if (value !== undefined && value !== null && value !== '') {
+                updateData[metric] = value;
             }
         });
 
@@ -52,13 +54,24 @@ export const addBusiness = async (req, res) => {
         // Find and update existing document, or create a new one if it doesn't exist
         const result = await Business.findOneAndUpdate(
             {weekStartDate, weekEndDate},
-            updateData,
+            { $set: updateData }, // $set ensures only update provided fields are updated within the document
             {
+                // upsert if a combination of "update" and "insert"
+                // If a document matching the search criteria exists, it updates that document
+                // If no matching document exists, it creates (inserts) a new one
                 upsert: true, // Create new document if it doesn't exist
+                // Determines which version of the document to return
+                // when true: Returns the modified document
+                // when false: returns the original document
                 new: true, // Return the modified document
+                // Only applies when a new document is being created (during upsert)
+                // Applies the default values defined in the business schema
+                // Only works in combination with upsert: true
                 setDefaultsOnInsert: true // This applies default values when creating
             }
         );
+
+        console.log("Update Data: ", updateData); // This will show the object being sent to MongoDB
 
         res.json(result);
     } catch (error) {
@@ -147,12 +160,14 @@ export const getGraphData = async (req, res) => {
 };
 
 export const getWeeklyData = (req, res) => {
+    const { weekStartDate, weekEndDate } = getWeekRange(new Date()); // Get the start and end date of the week
+
     // Defining the conditions, the business document must match the Code, weekStartDate and weekEndDate.
     // If found, the businesses weekly document will be returned
     Business.find({
-        businessCode: "BIZ123",
-        weekStartDate: "2024-11-10",
-        weekEndDate: "2024-11-16"
+        businessCode: req.session.user.businessCode, // Using the businessCode from the users session
+        weekStartDate: weekStartDate,
+        weekEndDate: weekEndDate
     })
     .then((result) => res.send(result))
     .catch((err) => {
