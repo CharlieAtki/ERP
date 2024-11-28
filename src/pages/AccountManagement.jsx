@@ -5,7 +5,6 @@ import NavigationBar from "../components/navigationBar.jsx";
 const AccountManagement = () => {
     return (
         <>
-            <NavigationBar title="Account Management" subtitle="Create Your Account" />
             <LoginFrom />
         </>
     );

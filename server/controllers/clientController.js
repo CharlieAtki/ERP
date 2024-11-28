@@ -268,3 +268,31 @@ export const verify2FACode = async (req, res) => {
         });
     }
 };
+
+export const updateClientBusinessCode = async (req, res) => {
+    try {
+        const updatedClient= await Client.findOneAndUpdate(
+            {_id: req.session.user.id},
+            {$set: {businessCode: req.body.businessCode}},
+            {
+                new: true
+            }
+        );
+
+        req.session.user.businessCode = req.body.businessCode; // Adjusting the session's business code attribute
+        await req.session.save(); // Important: explicitly save the session
+
+        res.json({
+            success: true,
+            message: 'Business code updated successfully',
+            businessCode: updatedClient.businessCode
+        });
+
+    } catch (error) {
+        console.error('Error updating ', error);
+        res.status(500).json({
+            success: false,
+            message: 'Error updating client business code'
+        });
+    }
+};

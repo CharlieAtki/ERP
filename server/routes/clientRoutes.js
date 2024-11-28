@@ -1,5 +1,5 @@
 import express from 'express';
-import {deleteAllClients, getAllClients} from "../controllers/clientController.js";
+import {deleteAllClients, getAllClients, updateClientBusinessCode} from "../controllers/clientController.js";
 
 // initialing the express router
 const router = express.Router();
@@ -14,5 +14,7 @@ const router = express.Router();
 router.delete('/delete-all-clients', deleteAllClients);
 // Adding the getAllClients controller to the router
 router.get('/all-clients', getAllClients);
+
+router.post('/adjust-business-code', updateClientBusinessCode);
 
 export default router;

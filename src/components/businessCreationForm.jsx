@@ -102,7 +102,7 @@ const BusinessCreationForm = () => {
     return (
         <section className="text-center p-6 w-full border-2 border-gray-700 text-lg rounded-3xl hover:shadow-2xl transition-shadow duration-300">
             <div className="flex justify-between items-center mb-6">
-                <label className="font-extrabold text-indigo-700 sm:text-2xl md:text-2xl">Business Creation</label>
+                <label className="font-extrabold text-indigo-700 sm:text-2xl md:text-2xl">Business Creation & Data Modification</label>
                 <span className="text-gray-700 sm:text-md md:text-md">{`${weekStartDate} - ${weekEndDate}`}</span>
             </div>
             <div className="grid grid-flow-row-dense grid-cols-3 gap-4">

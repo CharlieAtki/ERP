@@ -4,6 +4,8 @@ import NavigationBar from "../components/navigationBar.jsx";
 import {useNavigate} from "react-router-dom";
 import BusinessCreationForm from "../components/businessCreationForm.jsx";
 import BusinessDataDisplay from "../components/businessDataDisplay.jsx";
+import BusinessCodeInput from "../components/businessCodeInput.jsx";
+import LoginFrom from "../components/loginForm.jsx";
 function BookingManagement() {
     const navigate = useNavigate(); // React navigation component
 
@@ -35,7 +37,10 @@ function BookingManagement() {
             <NavigationBar title={"Dashboard"} subtitle={"Where Metrics Are Managed"} />
             <div className="p-6 space-y-6">
                 <BusinessDataDisplay />
-                <BusinessCreationForm />
+                <div className="grid grid-cols-2 gap-6 ">
+                    <BusinessCreationForm />
+                    <BusinessCodeInput />
+                </div>
             </div>
         </>
     );

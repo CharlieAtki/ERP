@@ -53,7 +53,11 @@ export const addBusiness = async (req, res) => {
 
         // Find and update existing document, or create a new one if it doesn't exist
         const result = await Business.findOneAndUpdate(
-            {weekStartDate, weekEndDate},
+            {
+                businessCode: req.session.user.businessCode, // preventing incorrect business document modification
+                weekStartDate,
+                weekEndDate
+            },
             { $set: updateData }, // $set ensures only update provided fields are updated within the document
             {
                 // upsert if a combination of "update" and "insert"
