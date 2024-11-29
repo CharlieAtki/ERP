@@ -43,9 +43,10 @@ const BusinessDataDisplay = () => {
     return (
         <div className="flex justify-center">
             <div className="w-full max-w-max">
-                <label className="ml-2 font-bold text-indigo-700 sm:text-lg md:text-2xl">
-                    Current Weeks Data:
-                </label>
+                <div className="ml-2 grid col-span-1 text-left ">
+                    <label className="font-bold text-indigo-700 sm:text-lg md:text-2xl">Current Weeks Data</label>
+                    <label className="text-gray-700 sm:text-md md:text-lg">Where Business Metrics Are Displayed</label>
+                </div>
                 <div className="bg-white border-2 border-gray-700 text-lg hover:shadow-xl transition-shadow duration-300">
                     <div className="overflow-x-auto">
                         <table className="w-full min-w-max border-collapse">
