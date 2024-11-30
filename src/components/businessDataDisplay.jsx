@@ -60,7 +60,7 @@ const BusinessDataDisplay = () => {
     ];
 
     return (
-        <div className="p-6 border-2 border-gray-700 rounded-2xl">
+        <div className="p-6 border-2 border-gray-700 rounded-2xl hover:shadow-2xl transition duration-300">
             {/* Header section */}
             <div className="mb-4">
                 <h2 className="font-bold text-indigo-700 text-2xl">Current Weeks Data</h2>

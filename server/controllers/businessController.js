@@ -169,7 +169,7 @@ export const getWeeklyData = (req, res) => {
     Business.find({
         businessCode: req.session.user.businessCode, // Using the businessCode from the users session
     })
-    .sort({ weekStartDate: -1 }) // Sort from most recent to oldest
+    .sort({ weekStartDate: 1 }) // Sort from most recent to oldest
     .then((result) => res.send(result))
     .catch((err) => {
         console.log('Error saving weekly data', err);

@@ -1,11 +1,9 @@
 import React, {useEffect} from "react";
-import DynamicTable from "../components/test.jsx";
 import NavigationBar from "../components/navigationBar.jsx";
 import {useNavigate} from "react-router-dom";
 import BusinessCreationForm from "../components/businessCreationForm.jsx";
 import BusinessDataDisplay from "../components/businessDataDisplay.jsx";
 import BusinessCodeInput from "../components/businessCodeInput.jsx";
-import LoginFrom from "../components/loginForm.jsx";
 import EmployeeDisplay from "../components/employeeDisplay.jsx";
 function BookingManagement() {
     const navigate = useNavigate(); // React navigation component
