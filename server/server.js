@@ -55,7 +55,6 @@ mongoose.connect(databaseURL)
     })
     .catch((err) => console.log('MongoDB connection error:', err));
 
-
 // This route is used to check whether the user attempting to load the dashboard,
 // which is a protected page. Eg, users who haven't logged in cannot access
 // If the user has logged in at the account management module, a cookie and session will have been created with the users ID
