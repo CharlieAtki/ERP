@@ -4,7 +4,6 @@ import {getWeekRange} from "../../server/utils/getWeekRange.js";
 const BusinessCreationForm = () => {
     // Initial state object
     const initialState = {
-        businessCode: "",
         totalBookings: "",
         occupancyRate: "",
         cancellationRate: "",
@@ -22,7 +21,6 @@ const BusinessCreationForm = () => {
 
     // Add each metric which will have an input here
     const [input, setInput] = useState(initialState); // state input fields -> This data is used to create or modify a business document
-    const [businessCodeInputError, setBusinessCodeInputError] = useState(false); // State business code input field
 
     const { weekStartDate, weekEndDate } = getWeekRange(new Date()); // Get the start and end date of the week
 
@@ -38,26 +36,8 @@ const BusinessCreationForm = () => {
         setInput((prev) => ({ ...prev, [name]: value })); // updating the useState, but keeping the value, which are unchanged
     }
 
-    // Ternary operator to dynamically adjust the UI - turns the business code input field red when no data is input after an attempted submission
-    const getBusinessCodeInputClass = (hasError) => {
-            return hasError
-            ? 'bg-gray-100 placeholder-gray-500 border-red-500'  // If there's an error, apply red border
-            : 'bg-gray-100 placeholder-gray-500'; // If no error, apply default border
-
-    };
-
     const sendData = async () => {
-        // Resetting error states before submitting
-        setBusinessCodeInputError(false);
-
         let hasError = false; // Track whether there are any errors in the input fields
-
-        // need to check for duplication -> add later
-        if (!input.businessCode) {
-            hasError = true // the business code input field contains no data
-            setBusinessCodeInputError(true);
-
-        }
 
         if (hasError) return
         try {
@@ -66,7 +46,6 @@ const BusinessCreationForm = () => {
                 headers: { "Content-Type": "application/json" }, // Defining the data type
                 credentials: 'include', // Allow cookie exchange
                 body: JSON.stringify({
-                    businessCode: input.businessCode,
                     totalBookings: input.totalBookings,
                     occupancyRate: input.occupancyRate,
                     cancellationRate: input.cancellationRate,
@@ -85,6 +64,7 @@ const BusinessCreationForm = () => {
             });
 
             if (response.ok) {
+                location.reload(); // Refresh the webpage once the data has been modified
                 const result = await response.json(); // Turing the JS object back into json
                 if (result.success) {
                     console.log("Business Created Successfully!");
@@ -109,18 +89,6 @@ const BusinessCreationForm = () => {
                 <span className="text-gray-700 sm:text-md md:text-md">{`${weekStartDate} - ${weekEndDate}`}</span>
             </div>
             <div className="grid grid-flow-row-dense grid-cols-3 gap-4">
-                <div className="col-span-2">
-                    <h3 className="text-left text-gray-700 sm:text-md md:text-md">Business Code</h3>
-                    <input
-                        type="text"
-                        name="businessCode"
-                        value={input.businessCode}
-                        onChange={handleChange}
-                        placeholder="Business Code"
-                        className={`border border-gray-300 p-4 text-lg rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 hover:border-indigo-500 w-full ${getBusinessCodeInputClass(businessCodeInputError)}`}
-
-                    />
-                </div>
                 <div>
                     <h3 className="text-left text-gray-700 sm:text-md md:text-md">Total Bookings</h3>
                     <input

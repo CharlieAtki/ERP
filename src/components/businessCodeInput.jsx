@@ -50,6 +50,7 @@ const BusinessCodeInput = () => {
             if (response.ok) {
                 // Handle successful response (maybe show a success message)
                 console.log(data.message);
+                location.reload() // Refresh the page once the data has being modified
             } else {
                 // Handle error response
                 console.error("Error Updating the code");
@@ -76,7 +77,7 @@ const BusinessCodeInput = () => {
                 />
                 <button
                     onClick={sendData}
-                    className='w-1/4 bg-gray-700 text-white rounded-full shadow-2xl shadow-gray-500/50 px-6 py-3 hover:bg-indigo-700 transition-all transform hover:scale-105'>
+                    className='w-11/12 bg-gray-700 text-white rounded-full shadow-2xl shadow-gray-500/50 px-6 py-3 hover:bg-indigo-700 transition-all transform hover:scale-105'>
                     Submit
                 </button>
             </div>

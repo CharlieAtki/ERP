@@ -164,15 +164,12 @@ export const getGraphData = async (req, res) => {
 };
 
 export const getWeeklyData = (req, res) => {
-    const { weekStartDate, weekEndDate } = getWeekRange(new Date()); // Get the start and end date of the week
-
     // Defining the conditions, the business document must match the Code, weekStartDate and weekEndDate.
     // If found, the businesses weekly document will be returned
     Business.find({
         businessCode: req.session.user.businessCode, // Using the businessCode from the users session
-        weekStartDate: weekStartDate,
-        weekEndDate: weekEndDate
     })
+    .sort({ weekStartDate: -1 }) // Sort from most recent to oldest
     .then((result) => res.send(result))
     .catch((err) => {
         console.log('Error saving weekly data', err);

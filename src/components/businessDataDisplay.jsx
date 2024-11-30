@@ -1,9 +1,9 @@
-import {useState, useEffect} from "react";
+import { useState, useEffect } from "react";
 
 const BusinessDataDisplay = () => {
-    const [data, setData] = useState([]) // Sate to store fetched data
-    const [error, setError] = useState(null) // sate to handle errors
-    const [loading, setLoading] = useState(true) // state to handle loading
+    const [data, setData] = useState([]);
+    const [error, setError] = useState(null);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -18,16 +18,16 @@ const BusinessDataDisplay = () => {
                     console.error("Failed to fetch data");
                 }
                 const result = await response.json();
-                setData(result); // Save the fetched data into the useState
+                setData(result);
             } catch (error) {
                 setError(error.message);
             } finally {
-                setLoading(false); // Stop loading once fetch has completed
+                setLoading(false);
             }
         };
 
         fetchData();
-    }, []); // Run once on component mount - Eg, once the webpage is loaded
+    }, []);
 
     // Handle loading state
     if (loading) {
@@ -39,162 +39,111 @@ const BusinessDataDisplay = () => {
         return <p>Error: {error}</p>;
     }
 
-    // Render the data
+    // Define the metrics to display
+    // This allows for dynamic rendering of any number of weeks
+    // Easy addition or removal of metrics
+    // Consistent formatting across the table
+    const metrics = [
+        { key: 'totalBookings', label: 'Total Bookings' },
+        { key: 'occupancyRate', label: 'Occupancy Rate', suffix: '%' },
+        { key: 'cancellationRate', label: 'Cancellation Rate', suffix: '%' },
+        { key: 'bookingLeadTime', label: 'Booking Lead Time' },
+        { key: 'noShowRate', label: 'No Show Rate', suffix: '%' },
+        { key: 'revenuePerBooking', label: 'Revenue Per Booking' },
+        { key: 'bookingConversionRate', label: 'Booking Conversion Rate', suffix: '%' },
+        { key: 'averageBookingValue', label: 'Average Booking Value' },
+        { key: 'paymentStatus', label: 'Payment Status' },
+        { key: 'costPerBooking', label: 'Cost Per Booking' },
+        { key: 'customerRetentionRate', label: 'Customer Retention Rate', suffix: '%' },
+        { key: 'seasonalBookingTrends', label: 'Seasonal Booking Trend' },
+        { key: 'demandForecasting', label: 'Demand Forecasting' }
+    ];
+
     return (
-        <div className="flex justify-center">
-            <div className="w-full max-w-max">
-                <div className="ml-2 grid col-span-1 text-left ">
-                    <label className="font-bold text-indigo-700 sm:text-lg md:text-2xl">Current Weeks Data</label>
-                    <label className="text-gray-700 sm:text-md md:text-lg">Where Business Metrics Are Displayed</label>
-                </div>
-                <div className="bg-white border-2 border-gray-700 text-lg hover:shadow-xl transition-shadow duration-300">
-                    <div className="overflow-x-auto">
-                        <table className="w-full min-w-max border-collapse">
-                            <thead>
-                            <tr className="bg-gray-100 border-b border-gray-300">
+        <div className="p-6 border-2 border-gray-700 rounded-2xl">
+            {/* Header section */}
+            <div className="mb-4">
+                <h2 className="font-bold text-indigo-700 text-2xl">Current Weeks Data</h2>
+                <p className="text-gray-700 text-lg">Business Metrics Overview</p>
+            </div>
+
+            {/* Table Container */}
+            <div className="overflow-x-auto">
+                <table className="w-full border-collapse">
+                    {/* Table Header */}
+                    <thead>
+                        <tr className="bg-gray-200">
+                            <th className="px-4 py-2 text-left border">Metric</th>
+                            {/* This creates a header column for each week of data
+                             Index + 1 creates labels like "Week 1", "Week 2"
+                             item._id is used as a key if available, falls back to index */}
+                            {data.map((item, index) => (
                                 <th
-                                    className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                    Business Code
-                                </th>
-                                <th
-                                    className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                    Week Start Date
-                                </th>
-                                <th
-                                    className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                    Week End Date
-                                </th>
-                                <th
-                                    className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                    Total Bookings
-                                </th>
-                                <th
-                                    className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                    Occupancy Rate
-                                </th>
-                                <th
-                                    className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                    Cancellation Rate
-                                </th>
-                                <th
-                                    className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                    Booking Lead Time
-                                </th>
-                                <th
-                                    className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                    No Show Rate
-                                </th>
-                                <th
-                                    className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                    Revenue Per Booking
-                                </th>
-                                <th
-                                    className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                    Booking Conversion Rate
-                                </th>
-                                <th
-                                    className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                    Average Booking Value
-                                </th>
-                                <th
-                                    className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                    Payment Status
-                                </th>
-                                <th
-                                    className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                    Cost Per Booking
-                                </th>
-                                <th
-                                    className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                    Customer Retention Rate
-                                </th>
-                                <th
-                                    className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                    Seasonal Booking Trend
-                                </th>
-                                <th
-                                    className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                    Demand Forecasting
-                                </th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {data.map((item) => (
-                                <tr key={item._id} className="bg-gray-100 border-b border-gray-300"
+                                    key={item._id || index}
+                                    className="px-4 py-2 text-center border"
                                 >
-                                    <td
-                                        className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                        {item.businessCode}
-                                    </td>
-                                    <td
-                                        className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                        {item.weekStartDate}
-                                    </td>
-                                    <td
-                                        className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                        {item.weekEndDate}
-                                    </td>
-                                    <td
-                                        className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                        {item.totalBookings}
-                                    </td>
-                                    <td
-                                        className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                        {item.occupancyRate}%
-                                    </td>
-                                    <td
-                                        className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                        {item.cancellationRate}%
-                                    </td>
-                                    <td
-                                        className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                        {item.bookingLeadTime}
-                                    </td>
-                                    <td
-                                        className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                        {item.noShowRate}%
-                                    </td>
-                                    <td
-                                        className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                        {item.revenuePerBooking}
-                                    </td>
-                                    <td
-                                        className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                        {item.bookingConversionRate}%
-                                    </td>
-                                    <td
-                                        className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                        {item.averageBookingValue}
-                                    </td>
-                                    <td
-                                        className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                        {item.paymentStatus}
-                                    </td>
-                                    <td
-                                        className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                        {item.costPerBooking}
-                                    </td>
-                                    <td
-                                        className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                        {item.customerRetentionRate}%
-                                    </td>
-                                    <td
-                                        className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                        {item.seasonalBookingTrends}
-                                    </td>
-                                    <td
-                                        className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                        {item.demandForecasting}
-                                    </td>
-                                </tr>
+                                    <div className="text-sm">
+                                        {item.weekStartDate} - {item.weekEndDate}
+                                    </div>
+                                </th>
                             ))}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+                        </tr>
+                    </thead>
+
+                    {/* Table Body */}
+                    <tbody>
+                        {/* Explanation:
+                         First metrics.map() creates a row for each metric.
+                         Nested data.map creates a cell for each week's data
+                         Item[metric.key] dynamically retrieves the value for each metric
+                         Optional suffix, which is an optional attribute within each object (like %) can be added to the value */}
+                        {metrics.map((metric) => (
+                            <tr key={metric.key} className="border-b">
+                                {/* Metric label column */}
+                                {/* First map is iterating through each metric defined within the array,
+                                 and creates a row for each metric. As shown below, each row will use the "label" value from the metric object  */}
+                                <td className="px-4 py-2 font-semibold text-gray-700 border">
+                                    {metric.label}
+                                </td>
+
+                                {/* Data columns for each week */}
+                                {/* Second nested map: creates a cell for each week's data */}
+
+                                {/* Further explanation:
+                                 1.The initial map (metrics.map()) iterates through the metrics array (with keys like 'OccupancyRate')
+                                 2.For each metric, it creates a row
+                                 3. Inside that row, data.map() iterates through each data item
+                                 4. {item[metric.key]} dynamically accesses the value for that specific key in the current data item
+
+                                 Example to illustrate:
+                                 If metric is { key: 'occupancyRate', label: 'Occupancy Rate', suffix: '%'
+                                 And item is {occupancyRate: 75, ...
+
+                                 item[metric.key] translates to item['occupancyRate']
+                                 Which returns 75 */}
+
+                                {data.map((item, index) => (
+                                    <td
+                                        key={item._id || index}
+                                        className="px-4 py-2 text-center border text-gray-700"
+                                    >
+                                        {item[metric.key]}
+                                        {metric.suffix || ''}
+                                    </td>
+                                ))}
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default BusinessDataDisplay
+export default BusinessDataDisplay;
+
+// Disclosure:
+// During the creation of the table, I used external resources to aid its development.
+// Prior to the creation of the table, I had limited knowledge of how to dynamically create a React table.
+// By using Claude (AI Model) to explain the functionality of map() within the React component,
+// I now understand the functionality/purpose of the code. I plan on incorporating this knowledge within other elements of my program

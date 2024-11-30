@@ -1,5 +1,10 @@
 import express from 'express';
-import {deleteAllClients, getAllClients, updateClientBusinessCode} from "../controllers/clientController.js";
+import {
+    deleteAllClients,
+    fetchEmployees,
+    getAllClients,
+    updateClientBusinessCode
+} from "../controllers/clientController.js";
 
 // initialing the express router
 const router = express.Router();
@@ -16,5 +21,7 @@ router.delete('/delete-all-clients', deleteAllClients);
 router.get('/all-clients', getAllClients);
 
 router.post('/adjust-business-code', updateClientBusinessCode);
+
+router.get('/all-business-employees', fetchEmployees) // fetches the employees from the business to be displayed within the table
 
 export default router;

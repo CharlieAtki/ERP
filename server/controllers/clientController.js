@@ -296,3 +296,22 @@ export const updateClientBusinessCode = async (req, res) => {
         });
     }
 };
+
+export const fetchEmployees = async (req, res) => {
+    try {
+        const employees = await Client.find({businessCode: req.session.user.businessCode})
+
+        // If the employees can be found, send them back to the front end to be used within the table
+        res.json({
+            success: true, // operation successful - used as an indicator within the frontend
+            employees: employees // The employee names
+        })
+
+    } catch (error) {
+        console.error('Error fetching employees for employees:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Error fetching employees'
+        })
+    }
+}

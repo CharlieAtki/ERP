@@ -6,6 +6,7 @@ import BusinessCreationForm from "../components/businessCreationForm.jsx";
 import BusinessDataDisplay from "../components/businessDataDisplay.jsx";
 import BusinessCodeInput from "../components/businessCodeInput.jsx";
 import LoginFrom from "../components/loginForm.jsx";
+import EmployeeDisplay from "../components/employeeDisplay.jsx";
 function BookingManagement() {
     const navigate = useNavigate(); // React navigation component
 
@@ -39,7 +40,10 @@ function BookingManagement() {
                 <BusinessDataDisplay />
                 <div className="grid grid-cols-2 gap-6 ">
                     <BusinessCreationForm />
-                    <BusinessCodeInput />
+                    <div className="space-y-6">
+                        <BusinessCodeInput />
+                        <EmployeeDisplay />
+                    </div>
                 </div>
             </div>
         </>
