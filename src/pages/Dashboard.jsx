@@ -1,8 +1,8 @@
-import NavigationBar from "../components/navigationBar.jsx";
+import NavigationBar from "../components/ERPSystem/navigationBar.jsx";
 import React, {useEffect} from "react";
-import AreaChartComponents from "../components/areaChart.jsx";
-import LineChartComponent from "../components/lineChart.jsx";
-import BarChartComponent from "../components/barChart.jsx";
+import AreaChartComponents from "../components/ERPSystem/areaChart.jsx";
+import LineChartComponent from "../components/ERPSystem/lineChart.jsx";
+import BarChartComponent from "../components/ERPSystem/barChart.jsx";
 import {useNavigate} from "react-router-dom";
 
 
@@ -46,7 +46,7 @@ function Dashboard() {
                 const data = await response.json();
 
                 // if the data.valid attribute !== true, redirect to the login page
-                if (!data.valid) {
+                if (!data.valid || (data.user && data.user.accessType !== 'ERP')) {
                     navigate('/accountManagement');
                 }
                 // If an error occurs, redirect the user to the login page

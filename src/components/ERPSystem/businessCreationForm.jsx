@@ -1,5 +1,5 @@
 import {useState} from "react";
-import {getWeekRange} from "../../server/utils/getWeekRange.js";
+import {getWeekRange} from "../../../server/utils/getWeekRange.js";
 
 const BusinessCreationForm = () => {
     // Initial state object

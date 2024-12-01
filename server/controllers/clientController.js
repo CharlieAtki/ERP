@@ -77,9 +77,6 @@ export const addClient = async (req, res) => {
 }
 
 export const clientLogin = (req, res) => {
-    // Temp, aids the debugging process
-    console.log("Received data:", req.body);
-
     // Defining the variables with the payloads attributes (the input email and password from the frontend)
     const clientEmail = req.body.email;
 
@@ -101,6 +98,7 @@ export const clientLogin = (req, res) => {
                     id: client._id,
                     email: client.email,
                     businessCode: client.businessCode,
+                    accessType: "ERP"
                     // More elements could be added about the user. Eg, "Student" (roles)
                 }
 

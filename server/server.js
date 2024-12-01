@@ -7,6 +7,7 @@ import MongoStore from 'connect-mongo';
 import cookieParser from 'cookie-parser';
 import businessRoutes from "./routes/businessRoutes.js";
 import clientRoutes from "./routes/clientRoutes.js";
+import customerRoutes from "./routes/customerRoutes.js";
 import authenticationRoutes from "./AuthRoute/authenticationRoutes.js";
 import restrictedMiddleware from "./middlewares/restrictedMiddleware.js";
 
@@ -72,5 +73,6 @@ app.get('/', (req, res) => {
 })
 
 app.use('/api/business', restrictedMiddleware, businessRoutes) // adding the business routes to the server
-app.use('/api/client', restrictedMiddleware, clientRoutes) // adding the client routes to the server
+app.use('/api/client', restrictedMiddleware,  clientRoutes) // adding the client routes to the server
 app.use('/api/auth', authenticationRoutes) // Routes used before validation
+app.use('/api/customer', customerRoutes)

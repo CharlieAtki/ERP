@@ -1,10 +1,10 @@
 import React, {useEffect} from "react";
-import NavigationBar from "../components/navigationBar.jsx";
+import NavigationBar from "../components/ERPSystem/navigationBar.jsx";
 import {useNavigate} from "react-router-dom";
-import BusinessCreationForm from "../components/businessCreationForm.jsx";
-import BusinessDataDisplay from "../components/businessDataDisplay.jsx";
-import BusinessCodeInput from "../components/businessCodeInput.jsx";
-import EmployeeDisplay from "../components/employeeDisplay.jsx";
+import BusinessCreationForm from "../components/ERPSystem/businessCreationForm.jsx";
+import BusinessDataDisplay from "../components/ERPSystem/businessDataDisplay.jsx";
+import BusinessCodeInput from "../components/ERPSystem/businessCodeInput.jsx";
+import EmployeeDisplay from "../components/ERPSystem/employeeDisplay.jsx";
 function BookingManagement() {
     const navigate = useNavigate(); // React navigation component
 
@@ -20,7 +20,7 @@ function BookingManagement() {
                 const data = await response.json();
 
                 // if the data.valid attribute !== true, redirect to the login page
-                if (!data.valid) {
+                if (!data.valid || (data.user && data.user.accessType !== 'ERP')) {
                     navigate('/accountManagement');
                 }
                 // If an error occurs, redirect the user to the login page
