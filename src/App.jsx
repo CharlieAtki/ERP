@@ -6,7 +6,7 @@ import AccountManagement from "./pages/AccountManagement.jsx";
 import ExampleComponent from "./pages/testPage.jsx";
 import TwoFactorAuthentication from "./pages/TwoFactorAuthentication.jsx";
 import CustomerAccountManagement from "./pages/CustomerAccountManagement.jsx";
-import Shop from "./pages/Shop.jsx";
+import Shop from "./pages/shop/Shop.jsx";
 
 const App = () => {
     // React Routing - Used to manage the different "pages" and "components" within them
