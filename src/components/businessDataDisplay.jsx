@@ -1,33 +1,49 @@
 import { useState, useEffect } from "react";
+import DateFilter from "./dateFilter.jsx";
 
 const BusinessDataDisplay = () => {
     const [data, setData] = useState([]);
+    const [filteredData, setFilteredData] = useState([]);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await fetch('http://localhost:3000/api/business/get-weekly-data', {
-                    method: 'GET',
-                    headers: { 'Content-Type': 'application/json' },
-                    credentials: 'include'
-                });
+    const fetchData = async () => {
+        try {
+            const response = await fetch('http://localhost:3000/api/business/get-weekly-data', {
+                method: 'GET',
+                headers: { 'Content-Type': 'application/json' },
+                credentials: 'include'
+            });
 
-                if (!response.ok) {
-                    console.error("Failed to fetch data");
-                }
-                const result = await response.json();
-                setData(result);
-            } catch (error) {
-                setError(error.message);
-            } finally {
-                setLoading(false);
+            if (!response.ok) {
+                console.error("Failed to fetch data");
             }
-        };
+            const result = await response.json();
+            setData(result);
+            setFilteredData(result); // initially set filteredData to all data
+        } catch (error) {
+            setError(error.message);
+        } finally {
+            setLoading(false);
+        }
+    };
 
+    useEffect(() => {
         fetchData();
     }, []);
+
+    const handleFilter = ({ startDate, endDate }) => {
+        const filtered = data.filter((item) => {
+            const weekStartDate = new Date(item.weekStartDate);
+            const weekEndDate = new Date(item.weekEndDate);
+            const start = new Date(startDate);
+            const end = new Date(endDate);
+
+            return weekStartDate >= start && weekEndDate <= end;
+        });
+
+        setFilteredData(filtered);
+    };
 
     // Handle loading state
     if (loading) {
@@ -62,9 +78,15 @@ const BusinessDataDisplay = () => {
     return (
         <div className="p-6 border-2 border-gray-700 rounded-2xl hover:shadow-2xl transition duration-300">
             {/* Header section */}
-            <div className="mb-4">
-                <h2 className="font-bold text-indigo-700 text-2xl">Current Weeks Data</h2>
-                <p className="text-gray-700 text-lg">Business Metrics Overview</p>
+            <div className="flex items-center justify-between">
+                <div className="mb-6">
+                    <h2 className="font-bold text-indigo-700 text-2xl">Current Weeks Data</h2>
+                    <p className="text-gray-700 text-lg">Where Business Metrics Are Displayed</p>
+                </div>
+                <div className="mb-6">
+                    {/* DateFilter Component */}
+                    <DateFilter onFilter={handleFilter}/>
+                </div>
             </div>
 
             {/* Table Container */}
@@ -72,12 +94,12 @@ const BusinessDataDisplay = () => {
                 <table className="w-full border-collapse">
                     {/* Table Header */}
                     <thead>
-                        <tr className="bg-gray-200">
-                            <th className="px-4 py-2 text-left border">Metric</th>
+                    <tr className="bg-gray-200">
+                        <th className="px-4 py-2 text-left border">Metric</th>
                             {/* This creates a header column for each week of data
                              Index + 1 creates labels like "Week 1", "Week 2"
                              item._id is used as a key if available, falls back to index */}
-                            {data.map((item, index) => (
+                            {filteredData.map((item, index) => (
                                 <th
                                     key={item._id || index}
                                     className="px-4 py-2 text-center border"
@@ -122,7 +144,7 @@ const BusinessDataDisplay = () => {
                                  item[metric.key] translates to item['occupancyRate']
                                  Which returns 75 */}
 
-                                {data.map((item, index) => (
+                                {filteredData.map((item, index) => (
                                     <td
                                         key={item._id || index}
                                         className="px-4 py-2 text-center border text-gray-700"
