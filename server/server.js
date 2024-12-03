@@ -15,7 +15,7 @@ import restrictedMiddleware from "./middlewares/restrictedMiddleware.js";
 dotenv.config( { path: '/Users/charlieatkinson/Documents/School/A Level/Y13/ComputerScience/NEA/Code/ERP/.env'});
 
 // setting the port
-const port = process.env.PORT;
+const port = process.env.PORT || 3000;
 // Specifying the database URL
 const databaseURL = process.env.MONGODB_URI;
 

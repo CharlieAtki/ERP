@@ -25,6 +25,7 @@ const Shop = () => {
         checkLoginStatus();
     }, [navigate]);
 
+    // An array of objects, which represent individual locations. This array is mapped to create the components dynamically
     const destinations = [
         {
             name: "Croatia",
@@ -59,17 +60,18 @@ const Shop = () => {
     ];
 
     return (
-        <div>
+        <div className="p-6 ">
             <ShopNavigationBar title="Apprise Marketplace" subtitle="Holidays Made Simple"/>
 
-            <div className="container mx-auto px-4 py-8">
+            <div className="py-6 px-4 border-2 border-gray-300 rounded-2xl hover:shadow-2xl transition-shadow duration-300">
                 <div className="w-full mx-auto">
-                    <h2 className="text-3xl font-bold text-gray-800 mb-6 text-center">
+                    <h2 className="text-3xl font-bold text-indigo-700 mb-6 text-center">
                         Explore Destinations
                     </h2>
 
-                    <div className="flex justify-center">
+                    <div className="pt-6 pb-6 flex justify-center overflow-x-auto ">
                         <div className="flex space-x-6 pb-6">
+                            (
                             {destinations.map((destination, index) => (
                                 <div
                                     key={destination.name}
@@ -98,7 +100,7 @@ const Shop = () => {
                                                 {destination.highlights.map((highlight) => (
                                                     <span
                                                         key={highlight}
-                                                        className="bg-blue-50 text-blue-600 px-2 py-1 rounded-full text-xs"
+                                                        className="bg-blue-50 text-indigo-500 px-2 py-1 rounded-full text-xs"
                                                     >
                                                         {highlight}
                                                     </span>
@@ -107,7 +109,7 @@ const Shop = () => {
                                         </div>
 
                                         <button
-                                            className="w-full flex items-center justify-center bg-blue-500 text-white py-3 rounded-lg hover:bg-blue-600 transition-colors group"
+                                            className="w-full flex items-center justify-center bg-indigo-700 text-white py-3 rounded-lg hover:bg-blue-600 transition-colors group"
                                             onClick={() => {/* Navigate to destination details */}}
                                         >
                                             Explore Destination
