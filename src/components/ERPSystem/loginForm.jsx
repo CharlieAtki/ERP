@@ -79,7 +79,7 @@ const LoginFrom = () => {
             // Ternary operator to switch the API URL depending on the button pressed
             const APIEndPoint = buttonType === 'signUp' ? `${API_URL}/api/auth/add-client` : `${API_URL}/api/auth/clientLogin`;
             // Ternary operator to switch between the different webpages depending on the button pressed
-            const UIEndPoint = buttonType !== 'signUp' ? `${FRONTEND_URL}/twoFactorAuthentication` : `${FRONTEND_URL}/dashboard`;
+            const UIEndPoint = buttonType !== 'signUp' ? `http://192.168.1.155:5137/twoFactorAuthentication` : `http://192.168.1.155:5137/dashboard`;
 
             // Explanation why the credentials: "include is used"
             // 1. User logins in successfully
