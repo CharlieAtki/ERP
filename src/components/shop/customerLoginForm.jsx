@@ -12,6 +12,9 @@ const CustomerLoginFrom = () => {
     const [emailInputError, setEmailInputError] = useState(false); // To track if there was an error within the email input field
     const [emailInputValidityError, setEmailInputValidityError] = useState(false); // To track if the email contains an @ symbol
 
+    const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+    const FRONTEND_URL = import.meta.env.FRONTEND_URL || 'http://localhost:5173';
+
     // Function to get input field class based on error state
     // Used to improve user feedback + inform the user, which input is incorrect
     const getEmailInputClass = (hasError) => {
@@ -73,9 +76,9 @@ const CustomerLoginFrom = () => {
 
         try {
             // Ternary operator to switch the API URL depending on the button pressed
-            const APIEndPoint = buttonType === 'signUp' ? 'http://localhost:3000/api/auth/add-customer' : 'http://localhost:3000/api/auth/customer-login';
+            const APIEndPoint = buttonType === 'signUp' ? `${API_URL}/api/auth/add-customer` : `${API_URL}/api/auth/customer-login`;
             // Ternary operator to switch between the different webpages depending on the button pressed
-            const UIEndPoint = buttonType !== 'signUp' ? 'http://localhost:5173/shop' : 'http://localhost:5173/customerAccountManagement';
+            const UIEndPoint = buttonType !== 'signUp' ? `${FRONTEND_URL}/shop` : `${FRONTEND_URL}/customerAccountManagement`;
 
             // Explanation why the credentials: "include is used"
             // 1. User logins in successfully

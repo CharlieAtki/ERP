@@ -7,9 +7,11 @@ const BusinessDataDisplay = () => {
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
 
+    const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+
     const fetchData = async () => {
         try {
-            const response = await fetch('http://localhost:3000/api/business/get-weekly-data', {
+            const response = await fetch(`${API_URL}/api/business/get-weekly-data`, {
                 method: 'GET',
                 headers: { 'Content-Type': 'application/json' },
                 credentials: 'include'

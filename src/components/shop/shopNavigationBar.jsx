@@ -4,6 +4,8 @@ const ShopNavigationBar = ({ title, subtitle}) => {
     const location = useLocation(); // Get the current location (URL path)
     const navigate = useNavigate();
 
+    const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+
     // Function that compares the buttons path url and the current url
     // Used to improve user-feedback as if the url's match, the button is indigo rather than grey
     const getButtonClass = (path) => {
@@ -16,7 +18,7 @@ const ShopNavigationBar = ({ title, subtitle}) => {
 
     const handleLogOut = async () => {
         try {
-            const response = await fetch('http://localhost:3000/api/customer/customer-Logout', {
+            const response = await fetch(`${API_URL}/api/customer/customer-Logout`, {
                 method: 'GET',
                 headers: {'Content-Type': 'application/json'},
                 credentials: 'include',

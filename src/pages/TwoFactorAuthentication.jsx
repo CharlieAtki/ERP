@@ -35,12 +35,15 @@ const TwoFactorAuthentication = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [codeRequested, setCodeRequested] = useState(false);
 
+    const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+    const FRONTEND_URL = import.meta.env.FRONTEND_URL || 'http://localhost:5173';
+
     const generate2FACode = useCallback(async () => {
         if (isLoading || codeRequested) return; // return the code below
 
         try {
             setIsLoading(true);
-            const response = await fetch('http://localhost:3000/api/auth/generate-2FA-code', {
+            const response = await fetch(`${API_URL}/api/auth/generate-2FA-code`, {
                 method: 'POST',
                 headers: { "Content-Type": "application/json" },
                 credentials: 'include',
@@ -68,7 +71,7 @@ const TwoFactorAuthentication = () => {
         }
 
         try {
-            const response = await fetch('http://localhost:3000/api/auth/verify-2FA-code', {
+            const response = await fetch(`${API_URL}/api/auth/verify-2FA-code`, {
                 method: 'POST',
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ authenticationCode: input.authenticationCode }),
@@ -78,7 +81,7 @@ const TwoFactorAuthentication = () => {
             if (response.ok) {
                 const result = await response.json();
                 if (result.success) {
-                    window.location.href = 'http://localhost:5173/dashboard';
+                    window.location.href = `${FRONTEND_URL}/dashboard`;
                 } else {
                     setInputError(true) // an error has occurred
                 }

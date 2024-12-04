@@ -4,10 +4,12 @@ const EmployeeDisplay = () => {
     const [employees, setEmployees] = useState([]);
     const [error, setError] = useState(null);
 
+    const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+
     useEffect(() => {
         const fetchEmployees = async () => {
             try {
-                const response = await fetch("http://localhost:3000/api/client/all-business-employees", {
+                const response = await fetch(`${API_URL}/api/client/all-business-employees`, {
                     method: 'GET',
                     headers: { 'Content-Type': 'application/json' },
                     credentials: 'include'

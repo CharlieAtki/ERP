@@ -1,5 +1,5 @@
 import {useState} from "react";
-import {getWeekRange} from "../../../server/utils/getWeekRange.js";
+import {getWeekRange} from "/Users/charlieatkinson/Documents/School/A Level/Y13/ComputerScience/NEA/Code/server/utils/getWeekRange.js";
 
 const BusinessCreationForm = () => {
     // Initial state object
@@ -24,6 +24,9 @@ const BusinessCreationForm = () => {
 
     const { weekStartDate, weekEndDate } = getWeekRange(new Date()); // Get the start and end date of the week
 
+    const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+
+
     // Handler used for resting the input fields
     const handleReset = () => {
         setInput(initialState); // Reset input fields to their initial state
@@ -41,7 +44,7 @@ const BusinessCreationForm = () => {
 
         if (hasError) return
         try {
-            const response = await fetch("http://localhost:3000/api/business/new-business", {
+            const response = await fetch(`${API_URL}/api/business/new-business`, {
                 method: "POST", // Defining the method the API uses
                 headers: { "Content-Type": "application/json" }, // Defining the data type
                 credentials: 'include', // Allow cookie exchange

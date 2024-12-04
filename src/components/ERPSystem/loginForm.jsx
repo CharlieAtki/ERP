@@ -12,6 +12,10 @@ const LoginFrom = () => {
     const [emailInputError, setEmailInputError] = useState(false); // To track if there was an error within the email input field
     const [emailInputValidityError, setEmailInputValidityError] = useState(false); // To track if the email contains an @ symbol
 
+    const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+    const FRONTEND_URL = import.meta.env.FRONTEND_URL || 'http://localhost:5173';
+
+
     // Function to get input field class based on error state
     // Used to improve user feedback + inform the user, which input is incorrect
     const getEmailInputClass = (hasError) => {
@@ -73,9 +77,9 @@ const LoginFrom = () => {
 
         try {
             // Ternary operator to switch the API URL depending on the button pressed
-            const APIEndPoint = buttonType === 'signUp' ? 'http://localhost:3000/api/auth/add-client' : 'http://localhost:3000/api/auth/clientLogin';
+            const APIEndPoint = buttonType === 'signUp' ? `${API_URL}/api/auth/add-client` : `${API_URL}/api/auth/clientLogin`;
             // Ternary operator to switch between the different webpages depending on the button pressed
-            const UIEndPoint = buttonType !== 'signUp' ? 'http://localhost:5173/twoFactorAuthentication' : 'http://localhost:5173/dashboard';
+            const UIEndPoint = buttonType !== 'signUp' ? `${FRONTEND_URL}/twoFactorAuthentication` : `${FRONTEND_URL}/dashboard`;
 
             // Explanation why the credentials: "include is used"
             // 1. User logins in successfully

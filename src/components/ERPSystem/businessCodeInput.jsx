@@ -9,6 +9,9 @@ const BusinessCodeInput = () => {
     const [input, setInput] = useState(initialState); // Sate input fields (Business Code)
     const [businessCodeInputError, setBusinessCodeInputError] = useState(false); // State business code input field
 
+    const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+
+
     // handler used to update the values stored in the input useState
     // when there is an adjustment made in the input field.
     const handleChange = (event) => {
@@ -35,7 +38,7 @@ const BusinessCodeInput = () => {
         }
 
         try {
-            const response = await fetch("http://localhost:3000/api/client/adjust-business-code", {
+            const response = await fetch(`${API_URL}/api/client/adjust-business-code`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 credentials: 'include',

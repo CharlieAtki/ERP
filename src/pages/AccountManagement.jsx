@@ -1,6 +1,5 @@
 import React from "react";
 import LoginFrom from "../components/ERPSystem/loginForm.jsx";
-import NavigationBar from "../components/ERPSystem/navigationBar.jsx";
 
 const AccountManagement = () => {
     return (
