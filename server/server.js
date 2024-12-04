@@ -26,6 +26,8 @@ const app = express();
 app.use(cors({
     origin: 'http://localhost:5173', // Allow requests only form yor frontend URL
     credentials: true, // This ensures cookies (sessionID) can be sent with requests
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization']
 })); // Enable CORS for all routes
 
 app.use(express.json()); // Parse JSON encoded bodies
@@ -42,8 +44,9 @@ app.use(session({
     }),
     cookie: {
         maxAge: 1000 * 60 * 60, // 1 hour
-        secure: false, // Set true for HTTPS in production
+        secure: process.env.NODE_ENV === 'production', // Important for Render + Set true for HTTPS in production
         httpOnly: true, // Prevent access from client-side JS
+        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax'
     },
 }));
 
@@ -53,9 +56,14 @@ app.use(session({
 // .catch will return any error messages in the event of an error
 mongoose.connect(databaseURL)
     .then(() => {
-        app.listen(port, () => console.log(`Server started on port ${port}`));
+        app.listen(port, '0.0.0.0', () => {
+            console.log(`Server started on port ${port}`)
+        });
     })
-    .catch((err) => console.log('MongoDB connection error:', err));
+    .catch((err) => {
+        console.log('MongoDB connection error:', err)
+        process.exit(1);
+    });
 
 // This route is used to check whether the user attempting to load the dashboard,
 // which is a protected page. Eg, users who haven't logged in cannot access

@@ -14,10 +14,12 @@ const AreaChartComponents = ({ metricOne, metricTwo, metricOneUnit, metricTwoUni
     const [graphData, setGraphData] = useState([]) // state to store dynamic graph data
     const [error, setError] = useState(false) // state to handle errors
 
+    const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+
     useEffect(() => {
         const fetchGraphData = async () => {
             try {
-                const response = await fetch('http://localhost:3000/api/business/get-graph-data', {
+                const response = await fetch(`${API_URL}/api/business/get-graph-data`, {
                     method: "GET",
                     headers: { "Content-Type": "application/json" },
                     credentials: 'include',
