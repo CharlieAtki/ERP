@@ -35,15 +35,15 @@ const TwoFactorAuthentication = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [codeRequested, setCodeRequested] = useState(false);
 
-    const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
-    const FRONTEND_URL = import.meta.env.FRONTEND_URL || 'http://localhost:5173';
+    const API_URL = 'http://localhost:3000';
+    const FRONTEND_URL = 'http://172.16.18.187:5137' // adjust to use the URL from the environment file
 
     const generate2FACode = useCallback(async () => {
         if (isLoading || codeRequested) return; // return the code below
 
         try {
             setIsLoading(true);
-            const response = await fetch(`${API_URL}/api/auth/generate-2FA-code`, {
+            const response = await fetch(`http://localhost:3000/api/auth/generate-2FA-code`, {
                 method: 'POST',
                 headers: { "Content-Type": "application/json" },
                 credentials: 'include',

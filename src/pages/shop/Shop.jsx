@@ -6,10 +6,13 @@ import { ArrowRight } from "lucide-react"; // React Icons
 const Shop = () => {
     const navigate = useNavigate();
 
+    const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+
+
     useEffect(() => {
         const checkLoginStatus = async () => {
             try {
-                const response = await fetch('http://localhost:3000/', {
+                const response = await fetch(`${API_URL}`, {
                     credentials: 'include',
                 });
                 const data = await response.json();
