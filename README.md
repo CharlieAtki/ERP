@@ -1,28 +1,18 @@
-# React + Vite
+# Apprise ERP - Documentation still in developement (Not the final version)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Apprise ERP was developed for my OCR Computer Science A-Level Non Exam Assessment (NEA).
 
-Currently, two official plugins are available:
+Firstly, the project focused on creating three key modules: the Data Dashboard, the Booking Management System, and the Account Management Module. I decided to develop these specific modules to ensure that my solution was feasible within the allocated time frame, as I was studying three A-level subjects simultaneously. 
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+# Account Management Module
 
+The account management module focused on creating a secure and intuitive login workflow. Critical user information, such as email and password, is essential for the program’s operation. To address these requirements, I incorporated password hashing, cookies, and sessions to prevent unauthorized data access, Two-factor authentication, API validation, and UI validation. Each of these security measures was a core element of the application’s design, as the “client” would store large quantities of customer and business information within the application. In the event of data leackage, my client may be held accoutable.
 
-Documentation (For my planning):
+# Data Dashboard
 
-# Server:
+The data dashboard focused on data visualization and data mining, while also creating a user-friendly User Interface (UI). Both of these were used to aid my client’s ability to make data-driven decisions. To address these requirements, I leveraged Recharts, a graphing library, and Tailwind CSS to generate aesthetically pleasing UI and informative graphs. By incorporating Recharts into my application, I could efficiently develop more technically challenging features, such as custom tooltips, without being required to allocate a significant amount of time to less critical elements of my application.
 
-The "server" folder will contain all the middlewares and routes to manage the different APIs. 
-This includes CRUD operations on the MongoDB database, password hashing and 2FA authentication. 
+# Booking Managmenent Module
 
+The booking managmenent module was developed primarily to create a seemless method of inputting key business metrics into the application, but due to the scope of the NEA, I was unable to develop a system, which would create individial bookings, 
 
-# React GUI:
-
-The "scr" folder will contain the "pages"/modules files and the different components, which they use.
-
-# To do:
-
-- Recap Express - How to manage routes etc
-- Learn MongoDB - How to perform CRUD operations (this will be done as APIs)
-- Develop React knowledge and how to use Tailwind (CSS)
-- Creat a basic UI structure - Allows me to focus development on specific features 
