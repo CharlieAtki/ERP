@@ -13,7 +13,7 @@ const LoginFrom = () => {
     const [emailInputValidityError, setEmailInputValidityError] = useState(false); // To track if the email contains an @ symbol
 
     const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
-    const FRONTEND_URL = 'http://172.16.18.187:5137' // adjust to use the URL from the environment file
+    const FRONTEND_URL = import.meta.env.FRONTEND_URL || 'http://192.168.1.155:5137'
 
 
     // Function to get input field class based on error state

@@ -67,7 +67,8 @@ export const customerLogin = (req, res) => {
 
                     res.status(200).json({
                         success: true,
-                        message: 'Customer login successful'
+                        message: 'Customer login successful',
+                        test: req.session.user
                     });
                 } else {
                     return res.status(401).json({

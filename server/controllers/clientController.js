@@ -104,7 +104,8 @@ export const clientLogin = async (req, res) => {
 
                 return res.status(200).json({
                     success: true,
-                    message: 'Client login successful'
+                    message: 'Client login successful',
+                    test: req.session.user
                 });
             } else {
                 return res.status(401).json({
@@ -150,7 +151,9 @@ export const generateTwoFactor = async (req, res) => {
 
     try {
         // Check if user has exceeded code generation attempts
-        const client = await Client.findById(req.session.user.id);
+        console.log("Data received in generateTwoFactor TESTTTT:");
+        console.log(req.session.user)
+        const client = await Client.find(req.session.user.id);
         const currentTime = new Date();
 
         if (client.twoFactorAttempts && client.twoFactorAttempts.count >= MAX_ATTEMPTS) {

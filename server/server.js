@@ -19,11 +19,13 @@ const port = process.env.PORT || 3000;
 // Specifying the database URL
 const databaseURL = process.env.MONGODB_URI;
 
+const frontendURL = process.env.FRONTEND_URL;
+
 // initialising the express route management for the server
 const app = express();
 
 app.use(cors({
-    origin: ['http://192.168.1.155:5140', 'http://localhost:3000', 'http://172.16.18.187:5137', 'http://192.168.1.75:5141'],
+    origin: ['http://192.168.1.155:5137', 'http://localhost:3000', `${frontendURL}`],
     methods: ['GET', 'POST', 'PUT', 'DELETE'],  // Allowed HTTP methods
     credentials: true,
 }));
@@ -44,6 +46,7 @@ app.use(session({
         maxAge: 1000 * 60 * 60,
         secure: false,
         httpOnly: true,
+        sameSite: 'lax'
     },
 }));
 
@@ -69,7 +72,7 @@ mongoose.connect(databaseURL)
 // Extra Info - data within the cookies will have been encrypted, hackers will not be able to access the secrete code (stored in the env file)
 app.get('/', (req, res) => {
     res.header('Content-Type', 'application/json');
-    console.log(req.session.user);
+    console.log('Session:', req.session.user);
 
     if (req.session.user) {
         return res.status(200).json({valid: true, user: req.session.user});
@@ -77,7 +80,6 @@ app.get('/', (req, res) => {
         return res.status(401).json({valid: false, user: null});
     }
 })
-
 
 app.use('/api/business', restrictedMiddleware, businessRoutes) // adding the business routes to the server
 app.use('/api/client', restrictedMiddleware, clientRoutes) // adding the client routes to the server
