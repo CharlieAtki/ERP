@@ -43,8 +43,9 @@ app.use(session({
         collectionName: 'sessions',
     }),
     cookie: {
+        domain: 'localhost',
         maxAge: 1000 * 60 * 60,
-        secure: false,
+        secure: false, // true if https is used in production
         httpOnly: true,
         sameSite: 'lax'
     },
@@ -72,8 +73,7 @@ mongoose.connect(databaseURL)
 // Extra Info - data within the cookies will have been encrypted, hackers will not be able to access the secrete code (stored in the env file)
 app.get('/', (req, res) => {
     res.header('Content-Type', 'application/json');
-    console.log('Session:', req.session.user);
-
+    console.log('Session:', req.session.user); // used for debug
     if (req.session.user) {
         return res.status(200).json({valid: true, user: req.session.user});
     } else {
