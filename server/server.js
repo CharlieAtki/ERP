@@ -23,7 +23,7 @@ const databaseURL = process.env.MONGODB_URI;
 const app = express();
 
 app.use(cors({
-    origin: ['http://192.168.1.155:5137', 'http://localhost:3000', 'http://172.16.18.187:5137'],
+    origin: ['http://192.168.1.155:5140', 'http://localhost:3000', 'http://172.16.18.187:5137', 'http://192.168.1.75:5141'],
     methods: ['GET', 'POST', 'PUT', 'DELETE'],  // Allowed HTTP methods
     credentials: true,
 }));
