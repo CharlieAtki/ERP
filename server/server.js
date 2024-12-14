@@ -43,11 +43,10 @@ app.use(session({
         collectionName: 'sessions',
     }),
     cookie: {
-        domain: 'localhost',
         maxAge: 1000 * 60 * 60,
         secure: false, // true if https is used in production
         httpOnly: true,
-        sameSite: 'lax'
+        sameSite: 'none'
     },
 }));
 

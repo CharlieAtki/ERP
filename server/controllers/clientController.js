@@ -80,6 +80,9 @@ export const clientLogin = async (req, res) => {
     try {
         // Defining the variables with the payloads attributes (the input email and password from the frontend)
         const clientEmail = req.body.email;
+        console.log("Client email:", clientEmail);
+        console.log(req.body)
+        console.log(req.session.user)
 
         // Integers cannot be hashed and therefore the value is converted into a string
         const clientPasswordString = String(req.body.password);
@@ -100,7 +103,9 @@ export const clientLogin = async (req, res) => {
                     // More elements could be added about the user. Eg, "Student" (roles)
                 };
 
-                await req.session.save();
+                console.log("TEst")
+
+                console.log(req.session.user);
 
                 return res.status(200).json({
                     success: true,
@@ -150,9 +155,10 @@ export const generateTwoFactor = async (req, res) => {
     const COOLDOWN_MINUTES = 1; // Cooldown period in minutes
 
     try {
-        // Check if user has exceeded code generation attempts
-        console.log("Data received in generateTwoFactor TESTTTT:");
-        console.log(req.session.user)
+        if (!req.session || !req.session.user) {
+          console.error('User session is not defined');
+          return res.status(400).send('User session not found');
+        }
         const client = await Client.find(req.session.user.id);
         const currentTime = new Date();
 
